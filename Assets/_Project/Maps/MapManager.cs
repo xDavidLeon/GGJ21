@@ -10,6 +10,7 @@ public class MapManager : MonoBehaviour
     public TilesetDatabase tilesetDatabase;
 
     public Transform tiles;
+    public float tileScale = 1.0f;
 
     private void Awake()
     {
