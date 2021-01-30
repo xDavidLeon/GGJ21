@@ -2,7 +2,7 @@
     "automappingRulesFile": "",
     "commands": [
     ],
-    "extensionsPath": "../../TiledProject/extensions",
+    "extensionsPath": "extensions",
     "folders": [
     ],
     "objectTypesFile": ""
