@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 915735587803999872}
   m_Father: {fileID: 912742830380811716}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909804770158357558
 GameObject:
@@ -277,7 +277,7 @@ Transform:
   m_Children:
   - {fileID: 915376847081742570}
   m_Father: {fileID: 912721014288986522}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &950762119092762244
 MonoBehaviour:
@@ -967,7 +967,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3576002817550727734}
   - {fileID: 915611644241697904}
   m_Father: {fileID: 912671831674074898}
   m_RootOrder: 0
@@ -1032,6 +1031,7 @@ Transform:
   m_LocalPosition: {x: -0.00000004370657, y: 0, z: -0.49994487}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 3576002817550727734}
   - {fileID: 8332423873785019463}
   - {fileID: 912607779873718398}
   m_Father: {fileID: 913016433125647248}
@@ -1424,12 +1424,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8389597653976731177}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.022, y: 0.6945443, z: 0.5080823}
+  m_LocalRotation: {x: -0.7071068, y: -0.00000013767877, z: -0.00000013767877, w: 0.7071067}
+  m_LocalPosition: {x: -0.021999925, y: 0.5080821, z: -0.19459943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5888645459323386799}
-  m_Father: {fileID: 912721014288986522}
+  m_Father: {fileID: 912742830380811716}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8369955441363245996
@@ -1441,7 +1441,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b104a4d697a4e6d48a7f50cd06ef43aa, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b104a4d697a4e6d48a7f50cd06ef43aa, type: 3}
       propertyPath: m_LocalScale.x
