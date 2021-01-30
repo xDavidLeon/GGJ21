@@ -10,6 +10,8 @@ using UnityEngine.UI;
 public class PaperMapEditor : MonoBehaviour
 {
     public bool watching_map = false;
+    public bool show_player = true;
+
     public GameObject canvasObject = null;
     public Camera playerCamera;
     public Camera mapCamera;
@@ -77,7 +79,9 @@ public class PaperMapEditor : MonoBehaviour
 
     Vector3 convertMapToWorld(Vector2 pos2D)
     {
-        return new Vector3(pos2D.x / rt.width,0, pos2D.y / rt.height);
+        float world_width = 128.0f * 4.0f;
+        float world_height = 128.0f * 4.0f;
+        return new Vector3( (pos2D.x / rt.width) * world_width,0, (1.0f - pos2D.y / rt.height) * world_height);
     }
 
     void Update()
@@ -111,10 +115,17 @@ public class PaperMapEditor : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
+                ClearPath();
                 Debug.Log("start drawing... ");
                 last_pos = cursorpos;
                 path.Add(this.convertMapToWorld(last_pos));
                 pencil_drawing = true;
+                GL.PushMatrix();
+                GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
+                RenderTexture.active = rt;
+                DrawSprite(0, 1, cursorpos, new Vector2(32, 32));
+                RenderTexture.active = null;
+                GL.PopMatrix();
             }
         }
 
@@ -122,11 +133,25 @@ public class PaperMapEditor : MonoBehaviour
         {
             Debug.Log("stop drawing... ");
             pencil_drawing = false;
+            GL.PushMatrix();
+            GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
+            RenderTexture.active = rt;
+            DrawSprite(0, 3, cursorpos, new Vector2(32, 32));
+            RenderTexture.active = null;
+            GL.PopMatrix();
         }
 
         DrawTexture();
     }
-    
+
+    void ClearPath()
+    {
+        RenderTexture.active = rt;
+        GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+        RenderTexture.active = null;
+        path.Clear();
+    }
+
     void DrawTexture()
     {
         GL.PushMatrix();
@@ -136,19 +161,43 @@ public class PaperMapEditor : MonoBehaviour
         //DrawSprite(0, 1, new Vector2(rt.width*0.5f, rt.height * 0.5f), new Vector2(128, 128));
         if (pencil_drawing)
         {
-            if (Vector2.Distance(last_pos,cursorpos) > 10)
+            float min_dist_between_points = 12.0f;
+            float dist = Vector2.Distance(last_pos, cursorpos);
+            if(dist > min_dist_between_points)
             {
-                last_pos = cursorpos;
-                path.Add( this.convertMapToWorld(last_pos));
                 RenderTexture.active = rt;
-                DrawSprite(0, 1, cursorpos, new Vector2(16, 16));
+                Vector2 start_pos = last_pos;
+                Vector2 end_pos = new Vector2(cursorpos.x, cursorpos.y);
+                Vector2 delta = end_pos - start_pos;
+                delta.Normalize();
+                delta *= min_dist_between_points;
+
+                while (dist > min_dist_between_points)
+                {
+                    Vector2 point_pos = last_pos + delta;
+                    last_pos = point_pos;
+                    path.Add(this.convertMapToWorld(point_pos));
+                    DrawSprite(0, 1, point_pos, new Vector2(16, 16));
+                    dist = Vector2.Distance(last_pos, cursorpos);
+                }
                 RenderTexture.active = null;
             }
 
         }
 
+        //compose final image
         RenderTexture.active = final_rt;
         Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
+
+        if (show_player)
+        {
+            float world_width = 128.0f * 4.0f;
+            float world_height = 128.0f * 4.0f;
+            Vector3 playerpos = canvasObject.transform.position;
+            playerpos.x = (playerpos.x / (world_width)) * final_rt.width;
+            playerpos.z = (1.0f - playerpos.z / (world_height)) * final_rt.height;
+            DrawSprite(0, 2, new Vector2(playerpos.x, playerpos.z), new Vector2(32, 32));
+        }
         Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), rt);
         RenderTexture.active = null;
 
