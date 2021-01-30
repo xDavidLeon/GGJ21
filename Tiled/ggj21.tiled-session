@@ -1,0 +1,79 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "test_map.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "C:/Users/david/Downloads/test.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/david/Downloads/testMap.tmx": {
+            "scale": 0.13338169642857142,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1188.318969123923,
+                "y": 2245.4355284076646
+            }
+        },
+        "RTS_medieval@2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.5
+        },
+        "medieval_tilesheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "medieval_tilesheet64.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test.tsx": {
+            "scaleInDock": 1
+        },
+        "testMap.tmx": {
+            "scale": 0.13338169642857142,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1188.318969123923,
+                "y": 2245.4355284076646
+            }
+        },
+        "test_map.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 408.66666666666663,
+                "y": 340
+            }
+        }
+    },
+    "loadedWorlds": [
+        "C:/Users/david/wkspaces/GGJ21/Tiled/world.world"
+    ],
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "test_map.tmx",
+        "medieval_tilesheet.tsx"
+    ],
+    "project": "ggj21.tiled-project",
+    "recentFiles": [
+        "C:/Users/david/Downloads/testMap.tmx",
+        "testMap.tmx",
+        "test_map.tmx",
+        "medieval_tilesheet.tsx",
+        "medieval_tilesheet64.tsx",
+        "RTS_medieval@2.tsx"
+    ],
+    "tileset.lastUsedFilter": "All Files (*)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 32,
+    "tileset.spacing": 32,
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}
