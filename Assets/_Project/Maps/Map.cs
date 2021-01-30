@@ -21,6 +21,7 @@ public class Map : ScriptableObject
         public string name;
     }
 
+    // Text file
     public TextAsset txtJson;
     public TiledMap tiledMap;
     
