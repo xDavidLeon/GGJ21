@@ -22,6 +22,15 @@ public class MapManager : MonoBehaviour
         Init();
     }
 
+    [ContextMenu("Clear")]
+    public void Clear()
+    {
+        if (tiles == null) tiles = new GameObject("Tiles").transform;
+        if (tiles.childCount > 0)
+            foreach (Transform child in tiles)
+                Destroy(child.gameObject);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -30,10 +39,7 @@ public class MapManager : MonoBehaviour
     [ContextMenu("Init")]
     public void Init()
     {
-        if (tiles == null) tiles = new GameObject("Tiles").transform;
-        if (tiles.childCount > 0)
-            foreach (Transform child in tiles)
-                Destroy(child);
+        Clear();
 
         // Loop through each layer in the TiledMap
         foreach (var tileLayer in map.tiledMap.layers)
@@ -66,7 +72,8 @@ public class MapManager : MonoBehaviour
             if (tile3D == null) continue;
             int posx = i;
             int posz = h - j - 1;
-            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(posx, 0, posz), Quaternion.identity, layerContainer.transform);
+            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(posx * tileScale, 0, posz * tileScale), Quaternion.identity, layerContainer.transform);
+            gTile3D.transform.localScale = Vector3.one * tileScale;
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }
