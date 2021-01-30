@@ -51,9 +51,10 @@ public class MapManager : MonoBehaviour
         if (tilesetLayer.Count == 0) return;
         var layerContainer = new GameObject(tileset.name);
         layerContainer.transform.SetParent(tiles);
-        
-        for (int i = 0; i < map.tiledMap.width; i++)
-        for (int j = 0; j < map.tiledMap.height; j++)
+        int w = map.tiledMap.width;
+        int h = map.tiledMap.height;
+        for (int i = 0; i < w; i++)
+        for (int j = 0; j < h; j++)
         {
             // Tile ID?
             var id = tileLayer.data[map.tiledMap.width * j + i];
@@ -63,9 +64,9 @@ public class MapManager : MonoBehaviour
 
             var tile3D = tilegroup.tiles[UnityEngine.Random.Range(0, tilegroup.tiles.Length)];
             if (tile3D == null) continue;
-
-            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(i, 0, j), Quaternion.identity, layerContainer.transform);
-            // gTile3D.transform.localScale = Vector3.one * tileScale;
+            int posx = i;
+            int posz = h - j - 1;
+            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(posx, 0, posz), Quaternion.identity, layerContainer.transform);
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }
