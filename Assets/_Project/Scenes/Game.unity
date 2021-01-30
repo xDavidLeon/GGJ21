@@ -326,7 +326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 912671831674074898, guid: a644d02ae0d23da4eaa424da83da77b4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 912671831674074898, guid: a644d02ae0d23da4eaa424da83da77b4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -334,7 +334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 912671831674074898, guid: a644d02ae0d23da4eaa424da83da77b4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 912671831674074898, guid: a644d02ae0d23da4eaa424da83da77b4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -376,10 +376,6 @@ PrefabInstance:
     - target: {fileID: 6939264253555583115, guid: 07bc034e816c8c644878b0c11a18772f, type: 3}
       propertyPath: m_Name
       value: MapManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6939264253555583116, guid: 07bc034e816c8c644878b0c11a18772f, type: 3}
-      propertyPath: tileScale
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6939264253555583117, guid: 07bc034e816c8c644878b0c11a18772f, type: 3}
       propertyPath: m_RootOrder

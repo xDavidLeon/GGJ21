@@ -35,8 +35,10 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 25000000
-    _keys: 25000000
+    _keyValues: 39000000
+    _keys: 39000000
     _values:
     - tiles:
-      - {fileID: 5067909213824428631, guid: 9ada0bc2542412b49966c8305c14d2c6, type: 3}
+      - {fileID: 5394423985455138098, guid: 4d3b79f9b74770e46a73d2c040b31f4b, type: 3}
+  offset: {x: 0, y: 0, z: 0}
+  isActive: 1
