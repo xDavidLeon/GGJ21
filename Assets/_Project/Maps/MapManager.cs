@@ -80,7 +80,7 @@ public class MapManager : MonoBehaviour
             int posz = h - j - 1;
             var position = new Vector3(posx * mapScale, 0, posz * mapScale);
             var gTile3D = GameObject.Instantiate(tile3D, position + tileset.offset, Quaternion.identity, layerContainer.transform);
-            gTile3D.transform.localScale = tile3D.transform.localScale * mapScale;
+            gTile3D.transform.localScale = Vector3.one * mapScale;
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }
