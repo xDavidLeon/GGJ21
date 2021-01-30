@@ -3,7 +3,17 @@ guid: 868971a6361b6244cad747fe4308492b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: leafsDark
+    second: {fileID: 2100000, guid: 2f22b31ef08eda84e818fce7fa7a9a10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: woodBarkDark
+    second: {fileID: 2100000, guid: 25d755e2e36c6584a95cabb051eccced, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +55,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -85,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.19999999
+    globalScale: 2
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

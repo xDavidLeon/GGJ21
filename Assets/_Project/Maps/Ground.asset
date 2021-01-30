@@ -45,4 +45,7 @@ MonoBehaviour:
     - tiles:
       - {fileID: 7724103342799313690, guid: 3d89904d6b7d2f7458e832c6fb308f92, type: 3}
   offset: {x: 0, y: 0, z: 0}
+  scaleVariance: 0
+  rotationVariance: 0
+  positionVariance: 0
   isActive: 0
