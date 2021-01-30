@@ -2,58 +2,66 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class MapManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class TiledMap
-    {
-        public int width;
-        public int height;
-        public TiledLayer[] layers;
+    public Map map;
+    public TilesetDatabase tilesetDatabase;
 
-        public static TiledMap CreateFromJSON(string json)
-        {
-            return JsonUtility.FromJson<TiledMap>(json);
-        }
-    }
-
-    [System.Serializable]
-    public class TiledLayer
-    {
-        public List<int> data;
-        public int id;
-        public string name;
-    }
-
-    public TiledMap tiledMap;
-    public TextAsset tiledMapJson;
+    public Transform tiles;
 
     private void Awake()
     {
-        Init(tiledMapJson);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Init();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
-    public void Init(TextAsset jsonAsset)
+    [ContextMenu("Init")]
+    public void Init()
     {
-        if (jsonAsset == null) return;
-        tiledMap = TiledMap.CreateFromJSON(jsonAsset.text);
+        if (tiles == null) tiles = new GameObject("Tiles").transform;
+        if (tiles.childCount > 0)
+            foreach (Transform child in tiles)
+                Destroy(child);
+
+        // Loop through each layer in the TiledMap
+        foreach (var tileLayer in map.tiledMap.layers)
+        {
+            Tileset tileSet = tilesetDatabase.GetTileset(tileLayer.name);
+            if (tileSet == null) continue;
+            InitLayer(tileLayer, tileSet);
+        }
     }
-    
-    public void Init(string jsonText)
+
+    public void InitLayer(Map.TiledLayer tileLayer, Tileset tileset)
     {
-        tiledMap = TiledMap.CreateFromJSON(jsonText);
+        if (tileset == null) return;
+        var tilesetLayer = tileset.data;
+        if (tilesetLayer.Count == 0) return;
+        for (int i = 0; i < map.tiledMap.width; i++)
+        for (int j = 0; j < map.tiledMap.height; j++)
+        {
+            // Tile ID?
+            var id = tileLayer.data[map.tiledMap.width * j + i];
+
+            Tileset.TileGroup tilegroup;
+            if (tilesetLayer.TryGetValue(id, out tilegroup) == false) continue; // get 3d tiles for this Tiled ID
+
+            var tile3D = tilegroup.tiles[UnityEngine.Random.Range(0, tilegroup.tiles.Length)];
+            if (tile3D == null) continue;
+
+            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(i, 0, j), Quaternion.identity, tiles);
+            gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
+        }
     }
 }
