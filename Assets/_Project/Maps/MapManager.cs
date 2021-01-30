@@ -48,6 +48,9 @@ public class MapManager : MonoBehaviour
         if (tileset == null) return;
         var tilesetLayer = tileset.data;
         if (tilesetLayer.Count == 0) return;
+        var layerContainer = new GameObject(tileset.name);
+        layerContainer.transform.SetParent(tiles);
+        
         for (int i = 0; i < map.tiledMap.width; i++)
         for (int j = 0; j < map.tiledMap.height; j++)
         {
@@ -60,7 +63,7 @@ public class MapManager : MonoBehaviour
             var tile3D = tilegroup.tiles[UnityEngine.Random.Range(0, tilegroup.tiles.Length)];
             if (tile3D == null) continue;
 
-            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(i, 0, j), Quaternion.identity, tiles);
+            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(i, 0, j), Quaternion.identity, layerContainer.transform);
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }

@@ -38,4 +38,5 @@ MonoBehaviour:
     _keyValues: 01000000
     _keys: 01000000
     _values:
-    - tiles: []
+    - tiles:
+      - {fileID: 5067909213824428631, guid: 9ada0bc2542412b49966c8305c14d2c6, type: 3}

@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"testMap..json"
+         "target":"testMap.json"
         }
     },
  "height":70,
@@ -61,7 +61,7 @@
  "nextlayerid":7,
  "nextobjectid":3,
  "orientation":"orthogonal",
- "renderorder":"right-down",
+ "renderorder":"right-up",
  "tiledversion":"1.4.3",
  "tileheight":64,
  "tilesets":[
