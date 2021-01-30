@@ -79,8 +79,19 @@ public class MapManager : MonoBehaviour
             int posx = i;
             int posz = h - j - 1;
             var position = new Vector3(posx * mapScale, 0, posz * mapScale);
-            var gTile3D = GameObject.Instantiate(tile3D, position + tileset.offset, Quaternion.identity, layerContainer.transform);
-            gTile3D.transform.localScale = Vector3.one * mapScale;
+            position += tileset.offset;
+            position.x += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
+            position.z += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
+            
+            Quaternion rot = Quaternion.identity;
+            rot.eulerAngles = new Vector3(0,
+                UnityEngine.Random.Range(-tileset.rotationVariance, tileset.rotationVariance), 0);
+            
+            var gTile3D = GameObject.Instantiate(tile3D, position, rot, layerContainer.transform);
+
+            var localScale = Vector3.one * mapScale;
+            localScale *= 1 + UnityEngine.Random.Range(-tileset.scaleVariance, tileset.scaleVariance);
+            gTile3D.transform.localScale = localScale;
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }

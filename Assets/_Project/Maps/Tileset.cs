@@ -20,6 +20,10 @@ public class Tileset : ScriptableObject
     public TilesetLayerData data;
 
     public Vector3 offset = Vector3.zero;
+    public float scaleVariance = 0.0f;
+    public float rotationVariance = 0.0f;
+    public float positionVariance = 0.0f;
+    
     public bool isActive = true;
     
     [ContextMenu("Save")]

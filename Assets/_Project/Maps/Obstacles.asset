@@ -39,6 +39,10 @@ MonoBehaviour:
     _keys: 39000000
     _values:
     - tiles:
-      - {fileID: 5394423985455138098, guid: 4d3b79f9b74770e46a73d2c040b31f4b, type: 3}
+      - {fileID: 664267680675319424, guid: 4f189023fc0292e4f92000bb93a721c8, type: 3}
+      - {fileID: 756927771592930958, guid: e6f90cb8b5be48840af40bb94789e91e, type: 3}
   offset: {x: 0, y: 0, z: 0}
+  scaleVariance: 0.2
+  rotationVariance: 360
+  positionVariance: 0.1
   isActive: 1
