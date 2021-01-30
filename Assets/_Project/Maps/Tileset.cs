@@ -18,6 +18,9 @@ public class Tileset : ScriptableObject
 
     [SerializeField]
     public TilesetLayerData data;
+
+    public Vector3 offset = Vector3.zero;
+    public bool isActive = true;
     
     [ContextMenu("Save")]
     public void Save()

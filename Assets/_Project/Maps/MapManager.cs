@@ -8,9 +8,12 @@ public class MapManager : MonoBehaviour
 {
     public Map map;
     public TilesetDatabase tilesetDatabase;
-
+    public Transform mapBase;
     public Transform tiles;
-    public float tileScale = 1.0f;
+
+    public float mapWidth = 128.0f;
+    public float mapHeight = 128.0f;
+    public float mapScale = 1.0f;
 
     private void Awake()
     {
@@ -41,6 +44,8 @@ public class MapManager : MonoBehaviour
     {
         Clear();
 
+        mapBase.localScale = new Vector3(mapWidth * mapScale, mapHeight * mapScale, 1);
+        mapBase.localPosition = new Vector3(mapBase.localScale.x / 2.0f, 0.0f, mapBase.localScale.y / 2.0f);
         // Loop through each layer in the TiledMap
         foreach (var tileLayer in map.tiledMap.layers)
         {
@@ -53,6 +58,7 @@ public class MapManager : MonoBehaviour
     public void InitLayer(Map.TiledLayer tileLayer, Tileset tileset)
     {
         if (tileset == null) return;
+        if (tileset.isActive == false) return;
         var tilesetLayer = tileset.data;
         if (tilesetLayer.Count == 0) return;
         var layerContainer = new GameObject(tileset.name);
@@ -72,8 +78,9 @@ public class MapManager : MonoBehaviour
             if (tile3D == null) continue;
             int posx = i;
             int posz = h - j - 1;
-            var gTile3D = GameObject.Instantiate(tile3D, new Vector3(posx * tileScale, 0, posz * tileScale), Quaternion.identity, layerContainer.transform);
-            gTile3D.transform.localScale = Vector3.one * tileScale;
+            var position = new Vector3(posx * mapScale, 0, posz * mapScale);
+            var gTile3D = GameObject.Instantiate(tile3D, position + tileset.offset, Quaternion.identity, layerContainer.transform);
+            gTile3D.transform.localScale = Vector3.one * mapScale;
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }
