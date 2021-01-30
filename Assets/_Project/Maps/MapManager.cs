@@ -10,6 +10,7 @@ public class MapManager : MonoBehaviour
     public TilesetDatabase tilesetDatabase;
 
     public Transform tiles;
+    public float tileScale = 1.0f;
 
     private void Awake()
     {
@@ -64,6 +65,7 @@ public class MapManager : MonoBehaviour
             if (tile3D == null) continue;
 
             var gTile3D = GameObject.Instantiate(tile3D, new Vector3(i, 0, j), Quaternion.identity, layerContainer.transform);
+            // gTile3D.transform.localScale = Vector3.one * tileScale;
             gTile3D.name = $"{tile3D.name}_x:{i}_y:{j}";
         }
     }
