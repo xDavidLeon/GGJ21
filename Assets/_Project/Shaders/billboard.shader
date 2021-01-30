@@ -1,5 +1,6 @@
 // Source: https://en.wikibooks.org/wiki/Cg_Programming/Unity/Billboards
 // Source: http://www.unity3d-france.com/unity/phpBB3/viewtopic.php?t=12304
+/**/
 Shader "Custom/Billboard Y Rotation Only"
 {
     Properties
@@ -104,6 +105,7 @@ Shader "Custom/Billboard Y Rotation Only"
     }
 }
 
+//*/
 /*
 Shader "Unlit/Billboard"
 {
