@@ -35,18 +35,29 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 090000000a0000001b0000001c0000002d0000002e000000
-    _keys: 090000000a0000001b0000001c0000002d0000002e000000
+    _keyValues: 0a0000000b0000001c0000001d0000002e0000002f000000
+    _keys: 0a0000000b0000001c0000001d0000002e0000002f000000
     _values:
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
     - tiles:
-      - {fileID: 8734993429056952875, guid: 7b8eeafb40efdb04faac25e2bd1a3a8a, type: 3}
+      - {fileID: 8333609179487206660, guid: bdbb8a1574791964bb533ae691e9f880, type: 3}
+      - {fileID: 3190916955543312073, guid: a3f2a0b68638aa84d8c0aa326634b063, type: 3}
+  offset: {x: 0, y: 0, z: 0}
+  scaleVariance: 0
+  rotationVariance: 360
+  positionVariance: 0
+  isActive: 1
