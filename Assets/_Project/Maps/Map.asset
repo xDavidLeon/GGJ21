@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a75c304edc3484dbe48d582108b729, type: 3}
   m_Name: Map
   m_EditorClassIdentifier: 
-  txtJson: {fileID: 4900000, guid: 5cb3d15d03cdd2549aaaf91deab98db3, type: 3}
+  txtJson: {fileID: 4900000, guid: cd4111ee00cc7494f96ff5d9d3e9ed16, type: 3}
   tiledMap:
     width: 128
     height: 128

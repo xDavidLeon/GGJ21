@@ -3,8 +3,7 @@
     {
      "export":
         {
-         "format":"json",
-         "target":"map128.json"
+         "format":"json"
         }
     },
  "height":128,
@@ -58,7 +57,7 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
+ "nextlayerid":8,
  "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"left-down",
