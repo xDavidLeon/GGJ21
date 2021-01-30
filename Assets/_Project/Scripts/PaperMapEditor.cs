@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -8,24 +9,27 @@ using UnityEngine.UI;
 
 public class PaperMapEditor : MonoBehaviour
 {
+    public bool watching_map = false;
     public GameObject canvasObject = null;
     public Camera playerCamera;
     public Camera mapCamera;
     public RenderTexture rt = null;
-    public Texture t = null; //atlas
+    public RenderTexture final_rt = null;
+    public Texture atlas = null; //atlas
+    public Texture map_bg = null; //bg
+    public Vector2 last_pos;
+    public List<Vector2> path;
 
-    public MeshRenderer mapMR = null;
-    public Image mapBgImg = null;
     //public List<Texture> circuit_textures;
     //public List<Sprite> blueprint_textures;
 
-    public Vector2 cursorpos;
-
-    public Transform pointOfInterest;
+    public Vector3 hitpos;
+    public Vector3 localpos;
+    public Vector3 cursorpos;
 
     //private int levelID = 0;
-    public RectTransform panelEdit;
-    public RectTransform panelControl;
+    //public RectTransform panelEdit;
+    //public RectTransform panelControl;
     private bool pencil_drawing = false;
 
     Plane plane;
@@ -34,8 +38,25 @@ public class PaperMapEditor : MonoBehaviour
     {
     }
 
+    void OnEnable()
+    {
+        RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
+    }
+    void OnDisable()
+    {
+        RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
+    }
+    private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
+    {
+        OnPostRender();
+    }
+
     private void Start()
     {
+        RenderTexture.active = rt;
+        GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+        RenderTexture.active = null;
+
         initMap();
     }
 
@@ -46,62 +67,116 @@ public class PaperMapEditor : MonoBehaviour
         //blueprintImg.sprite = blueprint_textures[ levelID ];
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(cursorpos, 0.01f);
+        //Vector3 hitpos = canvasObject.transform.InverseTransformPoint(cursorpos);
+        Gizmos.DrawSphere(hitpos, 0.05f);
+    }
+
+    Vector3 convertMapToWorld(Vector2 pos2D)
+    {
+        return new Vector3(pos2D.x / rt.width,0, pos2D.y / rt.height);
     }
 
     void Update()
     {
-        if (!mapCamera)
+        if (!mapCamera || !rt || !final_rt)
             return;
 
         if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
+            watching_map = !watching_map;
+
+        if (watching_map)
         {
-            // Activar o desactivar modo 
-            mapCamera.enabled = !mapCamera.enabled;
-            playerCamera.enabled = !playerCamera.enabled;
         }
+
+        mapCamera.enabled = watching_map;
+        playerCamera.enabled = !watching_map;
+
         //UpdateBoard();
 
-        plane = new Plane(canvasObject.transform.forward, canvasObject.transform.position);
+        plane = new Plane(canvasObject.transform.up, canvasObject.transform.position);
         Ray ray = mapCamera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
-        //Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+        Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
+        //Debug.DrawRay(canvasObject.transform.position, canvasObject.transform.up, Color.red);
         float enter = 0.0f;
-        if (  plane.Raycast(ray, out enter) )
+        if (watching_map && plane.Raycast(ray, out enter) )
         {
-            Vector2 hitpos = ray.GetPoint(enter);
-            cursorpos = canvasObject.transform.InverseTransformPoint(hitpos);
-            cursorpos.x = cursorpos.x * 512 + 256; //offset
-            cursorpos.y = cursorpos.y * -256 + 128;
+            hitpos = ray.GetPoint(enter);
+            localpos = canvasObject.transform.InverseTransformPoint(hitpos);
+            cursorpos.x = (-localpos.x / 10.0f + 0.5f) * rt.width;
+            cursorpos.y = (localpos.z / 10.0f + 0.5f) * rt.height;
 
             if (Input.GetMouseButtonDown(0))
             {
                 Debug.Log("start drawing... ");
+                last_pos = cursorpos;
+                path.Add(this.convertMapToWorld(last_pos));
                 pencil_drawing = true;
             }
+        }
 
-            if (Input.GetMouseButtonUp(0) && pencil_drawing )
-            {
-                Debug.Log("stop drawing... ");
-                pencil_drawing = false;
-            }
+        if (Input.GetMouseButtonUp(0) && pencil_drawing)
+        {
+            Debug.Log("stop drawing... ");
+            pencil_drawing = false;
         }
 
         DrawTexture();
     }
-
-    //draws icon from texture atlas
-    void DrawIcon(int numx, int numy, Vector2 pos, bool center = true)
+    
+    void DrawTexture()
     {
+        GL.PushMatrix();
+        GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
+        //GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.3f));
+        //Graphics.DrawTexture(new Rect(cursorpos.x,cursorpos.y,50,50), t);
+        //DrawSprite(0, 1, new Vector2(rt.width*0.5f, rt.height * 0.5f), new Vector2(128, 128));
+        if (pencil_drawing)
+        {
+            if (Vector2.Distance(last_pos,cursorpos) > 10)
+            {
+                last_pos = cursorpos;
+                path.Add( this.convertMapToWorld(last_pos));
+                RenderTexture.active = rt;
+                DrawSprite(0, 1, cursorpos, new Vector2(16, 16));
+                RenderTexture.active = null;
+            }
+
+        }
+
+        RenderTexture.active = final_rt;
+        Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
+        Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), rt);
+        RenderTexture.active = null;
+
+        GL.PopMatrix();
+    }
+    
+    //draws icon from texture atlas
+    void DrawSprite(int numx, int numy, Vector2 pos, Vector2 size, bool center = true)
+    {
+        
+        if (atlas == null)
+            return;
+        float w = 512.0f;
+        float h = 512.0f;
+        float framew = 128.0f;
+        float frameh = 128.0f;
+        float rows = w / frameh;
         //Rect frame = new Rect( (512.0f - numx*50.0f) / 512.0f, numy*50.0f / 512.0f, 50.0f / 512.0f, 50.0f / 512.0f);
-        float s = 50.0f / 512.0f;
-        float x = (numx * 50.0f) / 512.0f;
-        float y = (512.0f - numy * 50.0f) / 512.0f - s;
-        Rect frame = new Rect(x, y, s, s);
-        Graphics.DrawTexture(new Rect(pos.x - (center ? 25 : 0), pos.y - (center ? 25 : 0), 50, 50), t, frame, 0, 0, 0, 0);
+        float x = (numx * framew) / atlas.width;
+        //float y = (h - numy * frameh) / h - frameh;
+        float y = (rows - numy - 1) * (frameh / atlas.height);
+        Rect frame = new Rect(x, y, framew / atlas.width, frameh / atlas.height);
+        //Rect frame = new Rect(0.0f,0.0f,1.0f,1.0f);
+        Rect screenrect = new Rect(pos.x - (center ? size.x * 0.5f : 0), pos.y - (center ? size.y*0.5f : 0), size.x, size.y);
+        Graphics.DrawTexture(screenrect, atlas, frame, 0, 0, 0, 0);
+        
+        //Graphics.DrawTexture(new Rect(0, 0, 512.0f, 512.0f), t);
+        //Debug.Log("draw sprite ");
     }
 
     float sgn(float v) { return v < 0.0f ? -1.0f : 1.0f; }
@@ -121,28 +196,24 @@ public class PaperMapEditor : MonoBehaviour
         y = y1 + sgn(y1) * 0.5f;
         for (int i = 0; i <= d; i++)
         {
-            DrawIcon(5 + color, 1, new Vector2(Mathf.Floor(x), Mathf.Floor(y)));
+            DrawSprite(5 + color, 1, new Vector2(Mathf.Floor(x), Mathf.Floor(y)),new Vector2(50,50) );
             x = x + vx;
             y = y + vy;
         }
     }
 
-    void DrawTexture()
+    void OnPostRender()
     {
-        RenderTexture.active = rt;
+        return;
+        //Debug.Log("draw RT... ");
         GL.PushMatrix();
-        GL.LoadPixelMatrix(0, 512, 256, 0);
-        GL.Clear(true, true, new Color(1.0f, 1.0f, 1.0f, 0.0f));
-        //Graphics.DrawTexture(new Rect(cursorpos.x,cursorpos.y,50,50), t);
-        //DrawIcon(0,0,cursorpos);
+        GL.LoadOrtho();
 
-        DrawIcon(4, 1, new Vector2(512, 256), true);
-
-        //draw stuff...
-
+        Graphics.DrawTexture(new Rect(0, 0, 1,1), rt);
+        //new Rect(rect.x / Screen.width, rect.y / Screen.height, (rect.x + rect.width) / Screen.width, (rect.y + rect.height) / Screen.height)
+        //Rect rect = new Rect(0, 0, Screen.width, Screen.height);
+        //Graphics.DrawTexture(rect, rt, rect, 0, 0, 0, 0);
         GL.PopMatrix();
-        RenderTexture.active = null;
-        //Graphics.DrawTexture(rect, m_renderTexture, new Rect(rect.x / Screen.width, rect.y / Screen.height, (rect.x + rect.width) / Screen.width, (rect.y + rect.height) / Screen.height), 0, 0, 0, 0);
     }
 
     public void OpenCover()

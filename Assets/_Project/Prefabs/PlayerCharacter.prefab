@@ -1079,17 +1079,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e22b2c73221d3d458a78291882123d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasObject: {fileID: 0}
+  watching_map: 0
+  canvasObject: {fileID: 3096424569935522264}
   playerCamera: {fileID: 931139353817789800}
   mapCamera: {fileID: 3062507795372487552}
-  rt: {fileID: 0}
-  t: {fileID: 0}
-  mapMR: {fileID: 0}
-  mapBgImg: {fileID: 0}
-  cursorpos: {x: 0, y: 0}
-  pointOfInterest: {fileID: 0}
-  panelEdit: {fileID: 0}
-  panelControl: {fileID: 0}
+  rt: {fileID: 8400000, guid: bbc1a6180fcb51a44a6939d37521302d, type: 2}
+  final_rt: {fileID: 8400000, guid: cd21e3aeeb4b2d74b835b789484219dc, type: 2}
+  atlas: {fileID: 2800000, guid: 5e135ffc5d7c5354986d73bb2bf723c1, type: 3}
+  map_bg: {fileID: 2800000, guid: b17994f67646fa341a1ec14a2811361e, type: 3}
+  hitpos: {x: 0, y: 0, z: 0}
+  localpos: {x: 0, y: 0, z: 0}
+  cursorpos: {x: 0, y: 0, z: 0}
 --- !u!1 &3096424569935522264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,7 +1184,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4688143208454811996
@@ -1245,7 +1245,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 78
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -1270,7 +1270,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4688143208454811996}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &5588082056744293447
 MonoBehaviour:
   m_ObjectHideFlags: 0
