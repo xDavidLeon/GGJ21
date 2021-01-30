@@ -379,7 +379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6939264253555583116, guid: 07bc034e816c8c644878b0c11a18772f, type: 3}
       propertyPath: tileScale
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6939264253555583117, guid: 07bc034e816c8c644878b0c11a18772f, type: 3}
       propertyPath: m_RootOrder
