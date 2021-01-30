@@ -21,18 +21,21 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Map
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 87eee1177a0ae4a47b5b4ac8010f7a6a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_a81c877324c3467bbc7fae19476fc7c8:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 0c64c5b5f6881584d98e79d8696b5b7c, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -73,6 +76,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5b2fc29915fc45419298ef2504c766a1_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 0c64c5b5f6881584d98e79d8696b5b7c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8d318834340448a5be79bea9bcad6868_Texture_1:
+        m_Texture: {fileID: 2800000, guid: e77648ff56e811d4881c3088d3d3fb62, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -90,6 +101,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_236965eab88c48638cb1dd8b15851c2d: 500
+    - Vector1_60e61dc6931041ea9e92001c7e131a9b: 3
+    - Vector1_a04caeb2d2b54ec990fae697742853c6: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

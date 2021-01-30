@@ -35,12 +35,12 @@ MonoBehaviour:
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
     isExpanded: 1
-    _keyValues: 3a0000004f0000005000000039000000
-    _keys: 3a0000004f0000005000000039000000
+    _keyValues: 3a0000004f000000500000003900000048000000
+    _keys: 3a0000004f000000500000003900000048000000
     _values:
     - tiles:
-      - {fileID: 664267680675319424, guid: 4f189023fc0292e4f92000bb93a721c8, type: 3}
-      - {fileID: 756927771592930958, guid: e6f90cb8b5be48840af40bb94789e91e, type: 3}
+      - {fileID: 64713592235269556, guid: a2b7cb13beee4f04cac050debf84914e, type: 3}
+      - {fileID: 1996559678247823713, guid: e87246c01f4a96248b581e417b4a5588, type: 3}
     - tiles:
       - {fileID: 5475886022450402508, guid: d20f807cb4b60164099bda3f4d3722ae, type: 3}
     - tiles:
@@ -48,8 +48,10 @@ MonoBehaviour:
     - tiles:
       - {fileID: 7011875072502281707, guid: 971abe59537809b4ca1e75d45dac8666, type: 3}
       - {fileID: 3241218803464111261, guid: 3b1a1d3e16c8c2245a467e7efa008268, type: 3}
+    - tiles:
+      - {fileID: 7575755997948375531, guid: 191ce93a13cd5c8449d0d8eb25dc1b03, type: 3}
   offset: {x: 0, y: 0, z: 0}
   scaleVariance: 0.2
   rotationVariance: 360
-  positionVariance: 0.1
+  positionVariance: 0
   isActive: 1
