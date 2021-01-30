@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using System.Linq;
+using Rewired;
 using UnityEngine.UI;
 
 public class PaperMapEditor : MonoBehaviour
 {
     public GameObject canvasObject = null;
-    public Camera cam;
+    public Camera playerCamera;
+    public Camera mapCamera;
     public RenderTexture rt = null;
     public Texture t = null; //atlas
 
@@ -53,13 +55,19 @@ public class PaperMapEditor : MonoBehaviour
 
     void Update()
     {
-        if (!cam)
+        if (!mapCamera)
             return;
 
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
+        {
+            // Activar o desactivar modo 
+            mapCamera.enabled = !mapCamera.enabled;
+            playerCamera.enabled = !playerCamera.enabled;
+        }
         //UpdateBoard();
 
         plane = new Plane(canvasObject.transform.forward, canvasObject.transform.position);
-        Ray ray = cam.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+        Ray ray = mapCamera.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         //Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
         float enter = 0.0f;
         if (  plane.Raycast(ray, out enter) )
