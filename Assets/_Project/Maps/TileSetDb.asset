@@ -12,29 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0e55bdb7e57c34db7823e93895c71a, type: 3}
   m_Name: TileSetDb
   m_EditorClassIdentifier: 
-  data:
-    reorderableList:
-      canAdd: 1
-      canRemove: 1
-      draggable: 1
-      expandable: 1
-      multipleSelection: 1
-      isExpanded: 0
-      label:
-        m_Text: Keys
-        m_Image: {fileID: 0}
-        m_Tooltip: 
-      headerHeight: 18
-      footerHeight: 13
-      slideEasing: 0.15
-      verticalSpacing: 2
-      showDefaultBackground: 1
-      elementDisplayType: 0
-      elementNameProperty: 
-      elementNameOverride: 
-      elementIcon: {fileID: 0}
-    reqReferences: {fileID: 0}
-    isExpanded: 0
-    _keyValues: []
-    _keys: []
-    _values: []
+  tilesets:
+  - {fileID: 11400000, guid: 292a51ac8e78e0d4688a6c4a4800678b, type: 2}
+  - {fileID: 11400000, guid: e2c98e97be629684286aaa9909fa8ca8, type: 2}
+  - {fileID: 11400000, guid: 696dcee18164faf41928a9602866e665, type: 2}
+  - {fileID: 11400000, guid: 54fd4fbd762c9514a9bfcf31df330568, type: 2}

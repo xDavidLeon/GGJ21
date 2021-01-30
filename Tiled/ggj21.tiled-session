@@ -54,6 +54,7 @@
     "loadedWorlds": [
         "C:/Users/david/wkspaces/GGJ21/Tiled/world.world"
     ],
+    "map.lastUsedExportFilter": "All Files (*)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "test_map.tmx",

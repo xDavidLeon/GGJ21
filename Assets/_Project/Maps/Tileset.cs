@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using RotaryHeart.Lib.SerializableDictionary;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TileSet", menuName = "GGJ21/Create TileSet")]
@@ -15,5 +16,13 @@ public class Tileset : ScriptableObject
     [System.Serializable]
     public class TilesetLayerData : SerializableDictionaryBase<int, TileGroup> { }
 
+    [SerializeField]
     public TilesetLayerData data;
+    
+    [ContextMenu("Save")]
+    public void Save()
+    {
+        EditorUtility.SetDirty(this);
+        AssetDatabase.SaveAssets();
+    }
 }
