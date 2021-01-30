@@ -18,6 +18,7 @@ public class MapManager : MonoBehaviour
 
     public bool generateOnStart = false;
     public bool updateBase = false;
+    public Vector2 posOffset;
 
     private void Awake()
     {
@@ -92,7 +93,8 @@ public class MapManager : MonoBehaviour
             if (tile3D == null) continue;
             int posx = i;
             int posz = h - j - 1;
-            var position = new Vector3(posx * mapScale + 0.5f * mapScale, 0, posz * mapScale + 0.5f * mapScale);
+            var position = new Vector3(posx * mapScale + posOffset.x * mapScale, 0,
+                posz * mapScale + posOffset.y * mapScale);
             position += tileset.offset;
             position.x += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
             position.z += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
