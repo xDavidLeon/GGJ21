@@ -66,7 +66,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 868971a6361b6244cad747fe4308492b, type: 3}
       propertyPath: m_Name
-      value: tree_blocks_dark
+      value: tree_blocks_dark Variant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 868971a6361b6244cad747fe4308492b, type: 3}
       propertyPath: m_StaticEditorFlags

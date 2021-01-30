@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
@@ -15,6 +16,9 @@ public class MapManager : MonoBehaviour
     public float mapHeight = 128.0f;
     public float mapScale = 1.0f;
 
+    public bool generateOnStart = false;
+    public bool updateBase = false;
+
     private void Awake()
     {
     }
@@ -22,7 +26,7 @@ public class MapManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Init();
+        if (generateOnStart) Init();
     }
 
     [ContextMenu("Clear")]
@@ -31,7 +35,13 @@ public class MapManager : MonoBehaviour
         if (tiles == null) tiles = new GameObject("Tiles").transform;
         if (tiles.childCount > 0)
             foreach (Transform child in tiles)
+            {
+#if UNITY_EDITOR
+                DestroyImmediate(child.gameObject);
+#else
                 Destroy(child.gameObject);
+#endif
+            }
     }
 
     // Update is called once per frame
@@ -44,8 +54,12 @@ public class MapManager : MonoBehaviour
     {
         Clear();
 
-        mapBase.localScale = new Vector3(mapWidth * mapScale, mapHeight * mapScale, 1);
-        mapBase.localPosition = new Vector3(mapBase.localScale.x / 2.0f, 0.0f, mapBase.localScale.y / 2.0f);
+        if (updateBase)
+        {
+            mapBase.localScale = new Vector3(mapWidth * mapScale, mapHeight * mapScale, 1);
+            mapBase.localPosition = new Vector3(mapBase.localScale.x / 2.0f, 0.0f, mapBase.localScale.y / 2.0f);
+        }
+
         // Loop through each layer in the TiledMap
         foreach (var tileLayer in map.tiledMap.layers)
         {
@@ -78,16 +92,22 @@ public class MapManager : MonoBehaviour
             if (tile3D == null) continue;
             int posx = i;
             int posz = h - j - 1;
-            var position = new Vector3(posx * mapScale, 0, posz * mapScale);
+            var position = new Vector3(posx * mapScale + 0.5f * mapScale, 0, posz * mapScale + 0.5f * mapScale);
             position += tileset.offset;
             position.x += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
             position.z += UnityEngine.Random.Range(-tileset.positionVariance, tileset.positionVariance) * mapScale;
-            
+
             Quaternion rot = Quaternion.identity;
             rot.eulerAngles = new Vector3(0,
                 UnityEngine.Random.Range(-tileset.rotationVariance, tileset.rotationVariance), 0);
-            
+
+#if UNITY_EDITOR
+            GameObject gTile3D = PrefabUtility.InstantiatePrefab(tile3D) as GameObject;
+            gTile3D.transform.SetPositionAndRotation(position, rot);
+            gTile3D.transform.SetParent(layerContainer.transform);
+#else
             var gTile3D = GameObject.Instantiate(tile3D, position, rot, layerContainer.transform);
+#endif
 
             var localScale = Vector3.one * mapScale;
             localScale *= 1 + UnityEngine.Random.Range(-tileset.scaleVariance, tileset.scaleVariance);

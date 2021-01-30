@@ -53,7 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4acc6d060c8d44f41a53afdd69e41c50, type: 3}
       propertyPath: m_Name
-      value: path_stoneCorner
+      value: path_stoneCorner Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4acc6d060c8d44f41a53afdd69e41c50, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967294
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4acc6d060c8d44f41a53afdd69e41c50, type: 3}

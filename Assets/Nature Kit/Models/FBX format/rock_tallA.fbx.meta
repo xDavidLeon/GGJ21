@@ -3,7 +3,22 @@ guid: b4d06f3780270e24cab63ad9406f1ce2
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _defaultMat
+    second: {fileID: 2100000, guid: f1125c05a3401e54f94a676348d1b98d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dirt
+    second: {fileID: 2100000, guid: 9a0ad7e7913b1544ba4f4027ced5f1f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grass
+    second: {fileID: 2100000, guid: 1b1c64bb33a450343b94004b352562bb, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +60,7 @@ ModelImporter:
     importLights: 1
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -85,7 +100,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.19999999
+    globalScale: 2
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
