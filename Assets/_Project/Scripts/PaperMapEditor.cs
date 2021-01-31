@@ -147,8 +147,8 @@ public class PaperMapEditor : MonoBehaviour
         if (!mapCamera || !rt || !final_rt)
             return;
 
-        if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-            GameManager.Instance.CloseMap();
+        // if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
+        //     GameManager.Instance.CloseMap();
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;
