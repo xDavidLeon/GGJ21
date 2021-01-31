@@ -47,7 +47,7 @@ MonoBehaviour:
     - tiles:
       - {fileID: 5768133889791810417, guid: 1d1c5794c4a1d544cb890e1f3c068c1a, type: 3}
     - tiles:
-      - {fileID: 5768133889791810417, guid: 1d1c5794c4a1d544cb890e1f3c068c1a, type: 3}
+      - {fileID: 1730015133479817870, guid: 830859f2077ad7d41987123d37dd8a8a, type: 3}
   offset: {x: 0, y: 0, z: 0}
   scaleVariance: 0
   rotationVariance: 0
