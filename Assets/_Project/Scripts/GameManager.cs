@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,10 @@ public class GameManager : MonoSingleton<GameManager>
     public PaperMapEditor paperMapEditor;
 
     private PlayerCharacter _playerCharacter;
+
+    public int currentTentTarget = 0;
+
+    public bool isGameOver = false;
 
     public PlayerCharacter PlayerCharacter
     {
@@ -43,6 +48,27 @@ public class GameManager : MonoSingleton<GameManager>
         base.OnSingletonDestroy(isCurrentInstance);
     }
 
+    private void Update()
+    {
+        if (isGameOver) return;
+
+        MapManager m = MapManager.Instance;
+        if (m.tents.Count == 0) return;
+
+        if (m.tents[currentTentTarget].SheepReachedTent >= flock.Count)
+        {
+            currentTentTarget++;
+            if (currentTentTarget >= m.tents.Count)
+                Win();
+        }
+        else
+        {
+            gameCanvas.txtCurrentCampNumber.text = $"Traveling to camp {currentTentTarget + 1}";
+            gameCanvas.txtSheepReachedCamp.text =
+                $"# Sheep {m.tents[currentTentTarget].SheepReachedTent} / {flock.Count}";
+        }
+    }
+
     public void SpawnFlock(Vector3 position)
     {
         flock = new List<GameObject>();
@@ -69,7 +95,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         if (paperMapEditor == null) return;
         if (paperMapEditor.watching_map == true) return;
-        
+
         ShowCursor(true);
 
         paperMapEditor.OpenMap(PlayerCharacter.transform.position);
@@ -94,6 +120,7 @@ public class GameManager : MonoSingleton<GameManager>
         ShowCursor(true);
         gameCanvas.uiWin.SetActive(true);
         gameCanvas.uiPlayAgain.SetActive(true);
+        isGameOver = true;
     }
 
     public void Lose()
@@ -101,6 +128,7 @@ public class GameManager : MonoSingleton<GameManager>
         ShowCursor(true);
         gameCanvas.uiLose.SetActive(true);
         gameCanvas.uiPlayAgain.SetActive(false);
+        isGameOver = true;
     }
 
     public void ShowCursor(bool b)

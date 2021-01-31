@@ -19,6 +19,7 @@ public class MapManager : MonoSingleton<MapManager>
     public bool generateOnStart = false;
     public bool updateBase = false;
     public Vector2 posOffset;
+    public List<Tent> tents;
 
     // Start is called before the first frame update
     protected override void OnSingletonStart()

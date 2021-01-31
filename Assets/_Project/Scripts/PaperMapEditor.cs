@@ -16,7 +16,9 @@ public class PaperMapEditor : MonoBehaviour
     public Camera playerCamera;
     public Camera mapCamera;
     public RenderTexture rt = null;
+
     public RenderTexture final_rt = null;
+
     //public RenderTexture bgmap_rt = null;
     public Texture atlas = null; //atlas
     public Texture map_bg = null; //bg
@@ -44,10 +46,12 @@ public class PaperMapEditor : MonoBehaviour
     {
         RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
     }
+
     void OnDisable()
     {
         RenderPipelineManager.endCameraRendering -= RenderPipelineManager_endCameraRendering;
     }
+
     private void RenderPipelineManager_endCameraRendering(ScriptableRenderContext context, Camera camera)
     {
         OnPostRender();
@@ -82,7 +86,7 @@ public class PaperMapEditor : MonoBehaviour
         for (int i = 0; i < path.Count; ++i)
         {
             Gizmos.DrawSphere(path[i], 1.0f);
-           // Debug.Log($"worldops _x:{path[i].x}_z:{path[i].z}");
+            // Debug.Log($"worldops _x:{path[i].x}_z:{path[i].z}");
         }
     }
 
@@ -104,11 +108,12 @@ public class PaperMapEditor : MonoBehaviour
     {
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        Vector2 pos2D = new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width), Remap(worldpos.z, 0, world_height, rt.height, 0));
+        Vector2 pos2D = new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width),
+            Remap(worldpos.z, 0, world_height, rt.height, 0));
 
-        if(!skip_rect)
-        pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f),
-                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f));
+        if (!skip_rect)
+            pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f),
+                Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f));
 
         //pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
         //                    Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
@@ -119,13 +124,14 @@ public class PaperMapEditor : MonoBehaviour
     {
         if (!skip_rect)
             pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
-                            Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
+                Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
         //pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f ),
         //                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f ));
 
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f, Remap(pos2D.y, rt.height, 0, 0, world_height) );
+        Vector3 world_pos = new Vector3(Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f,
+            Remap(pos2D.y, rt.height, 0, 0, world_height));
         return world_pos;
     }
 
@@ -135,7 +141,7 @@ public class PaperMapEditor : MonoBehaviour
         watching_map = true;
         //FocusOnWorldPos(position);
     }
-    
+
     public void CloseMap()
     {
         if (watching_map == false) return;
@@ -166,8 +172,13 @@ public class PaperMapEditor : MonoBehaviour
         if (!mapCamera || !rt || !final_rt)
             return;
 
-        // if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-        //     GameManager.Instance.CloseMap();
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
+        {
+            if (!watching_map)
+                GameManager.Instance.OpenMap();
+            else
+                GameManager.Instance.CloseMap();
+        }
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;
@@ -181,16 +192,16 @@ public class PaperMapEditor : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * 10, Color.yellow);
         //Debug.DrawRay(canvasObject.transform.position, canvasObject.transform.up, Color.red);
         float enter = 0.0f;
-        if (watching_map && plane.Raycast(ray, out enter) )
+        if (watching_map && plane.Raycast(ray, out enter))
         {
             hitpos = ray.GetPoint(enter);
             localpos = canvasObject.transform.InverseTransformPoint(hitpos);
             cursorpos.x = (-localpos.x / 10.0f + 0.5f) * rt.width;
             cursorpos.y = (localpos.z / 10.0f + 0.5f) * rt.height;
 
-            if (Input.GetMouseButtonDown(0) && 
+            if (Input.GetMouseButtonDown(0) &&
                 cursorpos.x >= 0.0 && cursorpos.x <= rt.width && //is inside map
-                cursorpos.y >= 0.0 && cursorpos.y <= rt.height )
+                cursorpos.y >= 0.0 && cursorpos.y <= rt.height)
             {
                 ClearPath();
                 Debug.Log("start drawing... ");
@@ -241,7 +252,7 @@ public class PaperMapEditor : MonoBehaviour
         {
             float min_dist_between_points = 12.0f;
             float dist = Vector2.Distance(last_pos, cursorpos);
-            if(dist > min_dist_between_points)
+            if (dist > min_dist_between_points)
             {
                 RenderTexture.active = rt;
                 Vector2 start_pos = last_pos;
@@ -258,9 +269,9 @@ public class PaperMapEditor : MonoBehaviour
                     DrawSprite(0, 1, point_pos, new Vector2(16, 16));
                     dist = Vector2.Distance(last_pos, cursorpos);
                 }
+
                 RenderTexture.active = null;
             }
-
         }
 
         //compose final image
@@ -269,9 +280,11 @@ public class PaperMapEditor : MonoBehaviour
 
         //draw map
         //Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
-        Rect norm_rect = new Rect(visible_rect.x / map_bg.width, 1.0f - (visible_rect.y - visible_rect.height) / map_bg.height, visible_rect.width / map_bg.width, visible_rect.height / map_bg.height);
+        Rect norm_rect = new Rect(visible_rect.x / map_bg.width,
+            1.0f - (visible_rect.y - visible_rect.height) / map_bg.height, visible_rect.width / map_bg.width,
+            visible_rect.height / map_bg.height);
         //Rect norm_rect = new Rect(0, 0.0f, 0.5f, 0.5f);
-        Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), map_bg, norm_rect, 0,0,0,0);
+        Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), map_bg, norm_rect, 0, 0, 0, 0);
 
         //DrawSprite(0, 1, convertWorldToMap(new Vector2(visible_rect.x,visible_rect.y) ), new Vector2(32, 32));
 
@@ -281,16 +294,16 @@ public class PaperMapEditor : MonoBehaviour
             DrawSprite(3, 2, convertWorldToMap(mng.start_pos), new Vector2(32, 32));
             DrawSprite(0, 2, convertWorldToMap(canvasObject.transform.position), new Vector2(32, 32));
         }
+
         Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), rt);
         RenderTexture.active = null;
 
         GL.PopMatrix();
     }
-    
+
     //draws icon from texture atlas
     void DrawSprite(int numx, int numy, Vector2 pos, Vector2 size, bool center = true)
     {
-        
         if (atlas == null)
             return;
         float w = 512.0f;
@@ -304,14 +317,18 @@ public class PaperMapEditor : MonoBehaviour
         float y = (rows - numy - 1) * (frameh / atlas.height);
         Rect frame = new Rect(x, y, framew / atlas.width, frameh / atlas.height);
         //Rect frame = new Rect(0.0f,0.0f,1.0f,1.0f);
-        Rect screenrect = new Rect(pos.x - (center ? size.x * 0.5f : 0), pos.y - (center ? size.y*0.5f : 0), size.x, size.y);
+        Rect screenrect = new Rect(pos.x - (center ? size.x * 0.5f : 0), pos.y - (center ? size.y * 0.5f : 0), size.x,
+            size.y);
         Graphics.DrawTexture(screenrect, atlas, frame, 0, 0, 0, 0);
-        
+
         //Graphics.DrawTexture(new Rect(0, 0, 512.0f, 512.0f), t);
         //Debug.Log("draw sprite ");
     }
 
-    float sgn(float v) { return v < 0.0f ? -1.0f : 1.0f; }
+    float sgn(float v)
+    {
+        return v < 0.0f ? -1.0f : 1.0f;
+    }
 
     void DrawLine(int x1, int y1, int x2, int y2, int color = 0)
     {
@@ -328,7 +345,7 @@ public class PaperMapEditor : MonoBehaviour
         y = y1 + sgn(y1) * 0.5f;
         for (int i = 0; i <= d; i++)
         {
-            DrawSprite(5 + color, 1, new Vector2(Mathf.Floor(x), Mathf.Floor(y)),new Vector2(50,50) );
+            DrawSprite(5 + color, 1, new Vector2(Mathf.Floor(x), Mathf.Floor(y)), new Vector2(50, 50));
             x = x + vx;
             y = y + vy;
         }
@@ -341,7 +358,7 @@ public class PaperMapEditor : MonoBehaviour
         GL.PushMatrix();
         GL.LoadOrtho();
 
-        Graphics.DrawTexture(new Rect(0, 0, 1,1), rt);
+        Graphics.DrawTexture(new Rect(0, 0, 1, 1), rt);
         //new Rect(rect.x / Screen.width, rect.y / Screen.height, (rect.x + rect.width) / Screen.width, (rect.y + rect.height) / Screen.height)
         //Rect rect = new Rect(0, 0, Screen.width, Screen.height);
         //Graphics.DrawTexture(rect, rt, rect, 0, 0, 0, 0);
