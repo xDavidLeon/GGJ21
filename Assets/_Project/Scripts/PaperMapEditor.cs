@@ -17,10 +17,14 @@ public class PaperMapEditor : MonoBehaviour
     public Camera mapCamera;
     public RenderTexture rt = null;
     public RenderTexture final_rt = null;
+    //public RenderTexture bgmap_rt = null;
     public Texture atlas = null; //atlas
     public Texture map_bg = null; //bg
     public Vector2 last_pos;
     public List<Vector3> path;
+    public float world_scale = 4.0f;
+
+    public Rect visible_rect;
 
     //public List<Texture> circuit_textures;
     //public List<Sprite> blueprint_textures;
@@ -54,8 +58,11 @@ public class PaperMapEditor : MonoBehaviour
         RenderTexture.active = rt;
         GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
         RenderTexture.active = null;
-
+        visible_rect.Set(0, 0, map_bg.width, map_bg.height);
+        //visible_rect.Set(0, 0, 256f, 256f);
+        //visible_rect.Set(0, 64f, 256f, 256f);
         initMap();
+        //FocusOnWorldPos(new Vector3(100, 0, 100),128f);
     }
 
     void initMap()
@@ -79,25 +86,47 @@ public class PaperMapEditor : MonoBehaviour
         }
     }
 
+    public void FocusOnWorldPos(Vector3 worldpos, float area = 128f)
+    {
+        Vector2 center = convertWorldToMap(worldpos, true);
+        visible_rect.x = center.x - area * 0.5f;
+        visible_rect.y = center.y - area * 0.5f;
+        visible_rect.width = area;
+        visible_rect.height = area;
+    }
+
     public float Remap(float value, float from1, float to1, float from2, float to2)
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
-    public Vector2 convertWorldToMap(Vector3 worldpos)
+    public Vector2 convertWorldToMap(Vector3 worldpos, bool skip_rect = false)
     {
-        float world_scale = 4.0f;
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        return new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width), Remap(worldpos.z, 0, world_height, rt.height, 0));
+        Vector2 pos2D = new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width), Remap(worldpos.z, 0, world_height, rt.height, 0));
+
+        if(!skip_rect)
+        pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f),
+                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f));
+
+        //pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
+        //                    Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
+        return pos2D;
     }
 
-    public Vector3 convertMapToWorld(Vector2 pos2D)
+    public Vector3 convertMapToWorld(Vector2 pos2D, bool skip_rect = false)
     {
-        float world_scale = 4.0f;
+        if (!skip_rect)
+            pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
+                            Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
+        //pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f ),
+        //                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f ));
+
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        return new Vector3( Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f, Remap(pos2D.y, rt.height, 0, 0, world_height) );
+        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f, Remap(pos2D.y, rt.height, 0, 0, world_height) );
+        return world_pos;
     }
 
     public void OpenMap()
@@ -139,7 +168,9 @@ public class PaperMapEditor : MonoBehaviour
             cursorpos.x = (-localpos.x / 10.0f + 0.5f) * rt.width;
             cursorpos.y = (localpos.z / 10.0f + 0.5f) * rt.height;
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && 
+                cursorpos.x >= 0.0 && cursorpos.x <= rt.width && //is inside map
+                cursorpos.y >= 0.0 && cursorpos.y <= rt.height )
             {
                 ClearPath();
                 Debug.Log("start drawing... ");
@@ -222,7 +253,15 @@ public class PaperMapEditor : MonoBehaviour
 
         //compose final image
         RenderTexture.active = final_rt;
-        Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
+        GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+
+        //draw map
+        //Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
+        Rect norm_rect = new Rect(visible_rect.x / map_bg.width, 1.0f - (visible_rect.y - visible_rect.height) / map_bg.height, visible_rect.width / map_bg.width, visible_rect.height / map_bg.height);
+        //Rect norm_rect = new Rect(0, 0.0f, 0.5f, 0.5f);
+        Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), map_bg, norm_rect, 0,0,0,0);
+
+        //DrawSprite(0, 1, convertWorldToMap(new Vector2(visible_rect.x,visible_rect.y) ), new Vector2(32, 32));
 
         if (show_player)
         {
