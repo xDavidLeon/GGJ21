@@ -13,7 +13,7 @@ public class NPCCharacter : Controller
         public float jumpSpeed = 10f;
         public float gravity = 10f;
 
-        public float next_waypoint_distance = 1.0f;
+        public float next_waypoint_distance = 2.0f;
 
         public List<Vector3> waypoints;
         public List<int> visited;
@@ -90,11 +90,24 @@ public class NPCCharacter : Controller
         private Vector3 CalculateMovementDirection()
         {
             Vector3 _direction = Vector3.zero;
-
+        GameObject player = GameManager.Instance.PlayerCharacter.gameObject;
+        float dist = 0.0f;
+        if (player)
+        {
+            dist = Vector3.Distance(transform.position, player.transform.position);
+            if (dist < next_waypoint_distance * 2.0)
+            {
+                //close to player
+                _direction = (player.transform.position - transform.position).normalized;
+                return _direction;
+            }
+        }
         if (waypoints.Count > 0)
         {
+ 
+
             Vector3 currentWaypoint = waypoints[0];
-            float dist = Vector3.Distance(transform.position, currentWaypoint);
+            dist = Vector3.Distance(transform.position, currentWaypoint);
             //too far
             if (dist > 30.0f)
                 return _direction;
