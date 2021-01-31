@@ -9,6 +9,9 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject flockUnitPrefab;
     public Vector3 start_pos;
 
+    public GameCanvas gameCanvas;
+    public PaperMapEditor paperMapEditor;
+
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
@@ -17,6 +20,8 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void OnSingletonStart()
     {
         base.OnSingletonStart();
+
+        if (gameCanvas == null) gameCanvas = FindObjectOfType<GameCanvas>();
     }
 
     protected override void OnSingletonDestroy(bool isCurrentInstance)
@@ -44,5 +49,29 @@ public class GameManager : MonoSingleton<GameManager>
         {
             flockUnit.GetComponent<NPCCharacter>()?.SetWaypoints(waypoints);
         }
+    }
+
+    public void OpenMap()
+    {
+        if (paperMapEditor == null) return;
+        paperMapEditor.OpenMap();
+        gameCanvas.uiGameplay.SetActive(false);
+        gameCanvas.uiMap.SetActive(true);
+    }
+
+    public void CloseMap()
+    {
+        if (paperMapEditor == null) return;
+        paperMapEditor.CloseMap();
+        gameCanvas.uiGameplay.SetActive(true);
+        gameCanvas.uiMap.SetActive(false);
+    }
+
+    public void Win()
+    {
+    }
+
+    public void Lose()
+    {
     }
 }

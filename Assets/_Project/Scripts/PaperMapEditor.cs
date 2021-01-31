@@ -36,10 +36,6 @@ public class PaperMapEditor : MonoBehaviour
 
     Plane plane;
 
-    void Awake()
-    {
-    }
-
     void OnEnable()
     {
         RenderPipelineManager.endCameraRendering += RenderPipelineManager_endCameraRendering;
@@ -64,6 +60,7 @@ public class PaperMapEditor : MonoBehaviour
 
     void initMap()
     {
+        GameManager.Instance.paperMapEditor = this;
         //levelID = GameManager.Instance.level;
         //mapMR.material.SetTexture( "_BaseMap", circuit_textures[ levelID ] );
         //blueprintImg.sprite = blueprint_textures[ levelID ];
@@ -105,11 +102,13 @@ public class PaperMapEditor : MonoBehaviour
 
     public void OpenMap()
     {
+        if (watching_map) return;
         watching_map = true;
     }
     
     public void CloseMap()
     {
+        if (watching_map == false) return;
         watching_map = false;
     }
     
@@ -119,8 +118,7 @@ public class PaperMapEditor : MonoBehaviour
             return;
 
         if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-            watching_map = !watching_map;
-            //CloseMap();
+            GameManager.Instance.CloseMap();
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;

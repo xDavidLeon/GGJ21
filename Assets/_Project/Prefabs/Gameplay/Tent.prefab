@@ -4814,6 +4814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983788712200514512}
   - component: {fileID: 7787358483496157804}
+  - component: {fileID: 8040785798447883747}
   m_Layer: 0
   m_Name: trigger
   m_TagString: Checkpoint
@@ -4848,6 +4849,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.8163133, y: 1.7912544, z: 2.85193}
   m_Center: {x: 0, y: 0.24156374, z: 0}
+--- !u!114 &8040785798447883747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208019814400334259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493828523a8a7d341ab23b32e365ac48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6516966660923136363
 GameObject:
   m_ObjectHideFlags: 0
@@ -4956,18 +4969,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5188082594063558108, guid: 8b2e0e6c4391be741b016f6f1ddba8a5, type: 3}
---- !u!114 &3129452188811518195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5787425010616080734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 493828523a8a7d341ab23b32e365ac48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8693861771955887069
 GameObject:
   m_ObjectHideFlags: 0
