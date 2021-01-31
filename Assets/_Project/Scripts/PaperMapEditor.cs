@@ -20,7 +20,7 @@ public class PaperMapEditor : MonoBehaviour
     public Texture atlas = null; //atlas
     public Texture map_bg = null; //bg
     public Vector2 last_pos;
-    public List<Vector2> path;
+    public List<Vector3> path;
 
     //public List<Texture> circuit_textures;
     //public List<Sprite> blueprint_textures;
@@ -75,13 +75,22 @@ public class PaperMapEditor : MonoBehaviour
         Gizmos.color = Color.yellow;
         //Vector3 hitpos = canvasObject.transform.InverseTransformPoint(cursorpos);
         Gizmos.DrawSphere(hitpos, 0.05f);
+        for (int i = 0; i < path.Count; ++i)
+        {
+            Gizmos.DrawSphere(path[i], 1.0f);
+           // Debug.Log($"worldops _x:{path[i].x}_z:{path[i].z}");
+        }
     }
 
     Vector3 convertMapToWorld(Vector2 pos2D)
     {
-        float world_width = 128.0f * 4.0f;
-        float world_height = 128.0f * 4.0f;
-        return new Vector3( (pos2D.x / rt.width) * world_width,0, (1.0f - pos2D.y / rt.height) * world_height);
+        float world_scale = 4.0f;
+        float world_width = 128.0f * world_scale;
+        float world_height = 128.0f * world_scale;
+        float wx = (pos2D.x / (float)rt.width) * world_width + world_scale;
+        float wz = (1.0f - pos2D.y / (float)rt.height) * world_height;
+        //Debug.Log($"worldops _x:{wx}_z:{wz}");
+        return new Vector3(wx, 0.0f, wz);
     }
 
     void Update()
