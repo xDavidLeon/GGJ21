@@ -146,7 +146,8 @@ public class PaperMapEditor : MonoBehaviour
     {
         if (watching_map) return;
         watching_map = true;
-        FocusOnWorldPos(position);
+        GameObject player = GameManager.Instance.PlayerCharacter.gameObject;
+        FocusOnWorldPos(player.transform.position);
     }
 
     public void CloseMap()
