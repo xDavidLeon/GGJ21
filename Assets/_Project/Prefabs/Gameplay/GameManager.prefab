@@ -44,3 +44,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyOnLoad: 0
+  flock:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  flockSize: 20
+  flockUnitPrefab: {fileID: 8462072856897692757, guid: 9f6ce1f50e10ab44ab31f796b6055a60, type: 3}
+  start_pos: {x: 0, y: 0, z: 0}
+  gameCanvas: {fileID: 0}
+  paperMapEditor: {fileID: 0}

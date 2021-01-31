@@ -18,7 +18,7 @@ public class Tent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerCharacter>().paperMapEditor.OpenMap();
+            GameManager.Instance.OpenMap();
         }
     }
 }
