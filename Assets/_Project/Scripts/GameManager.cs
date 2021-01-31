@@ -9,6 +9,9 @@ public class GameManager : MonoSingleton<GameManager>
     public GameObject flockUnitPrefab;
     public Vector3 start_pos;
 
+    public GameCanvas gameCanvas;
+    public PaperMapEditor paperMapEditor;
+
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
@@ -17,6 +20,11 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void OnSingletonStart()
     {
         base.OnSingletonStart();
+
+        if (gameCanvas == null) gameCanvas = FindObjectOfType<GameCanvas>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     protected override void OnSingletonDestroy(bool isCurrentInstance)
@@ -44,5 +52,54 @@ public class GameManager : MonoSingleton<GameManager>
         {
             flockUnit.GetComponent<NPCCharacter>()?.SetWaypoints(waypoints);
         }
+    }
+
+    public void OpenMap()
+    {
+        if (paperMapEditor == null) return;
+        ShowCursor(true);
+
+        paperMapEditor.OpenMap();
+        gameCanvas.uiGameplay.SetActive(false);
+        gameCanvas.uiMap.SetActive(true);
+    }
+
+    public void CloseMap()
+    {
+        if (paperMapEditor == null) return;
+        ShowCursor(false);
+
+        paperMapEditor.CloseMap();
+        gameCanvas.uiGameplay.SetActive(true);
+        gameCanvas.uiMap.SetActive(false);
+    }
+
+    public void Win()
+    {
+        ShowCursor(true);
+        gameCanvas.uiWin.SetActive(true);
+        gameCanvas.uiPlayAgain.SetActive(true);
+    }
+
+    public void Lose()
+    {
+        ShowCursor(true);
+        gameCanvas.uiLose.SetActive(true);
+        gameCanvas.uiPlayAgain.SetActive(false);
+    }
+
+    public void ShowCursor(bool b)
+    {
+        if (b == true)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+   
     }
 }

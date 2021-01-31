@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa13bcb100c8474cbda1488a1c1a94c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyOnLoad: 0
+  destroyOnLoad: 1
   map: {fileID: 11400000, guid: fe8d1561d561ac64485613282dcad1b6, type: 2}
   tilesetDatabase: {fileID: 11400000, guid: 05472f3343c421e4294b1e764174a9f6, type: 2}
   mapBase: {fileID: 1511146859}
