@@ -92,19 +92,19 @@ public class NPCCharacter : Controller
             Vector3 _direction = Vector3.zero;
         GameObject player = GameManager.Instance.PlayerCharacter.gameObject;
         float dist = 0.0f;
-        if (player)
-        {
-            dist = Vector3.Distance(transform.position, player.transform.position);
-            if (dist < next_waypoint_distance * 2.0)
-            {
-                //close to player
-                _direction = (player.transform.position - transform.position).normalized;
-                return _direction;
-            }
-        }
         if (waypoints.Count > 0)
         {
- 
+            if (player)
+            {
+                dist = Vector3.Distance(transform.position, player.transform.position);
+                if (dist < next_waypoint_distance * 2.0)
+                {
+                    //close to player
+                    _direction = (player.transform.position - transform.position).normalized;
+                    return _direction;
+                }
+            }
+
 
             Vector3 currentWaypoint = waypoints[0];
             dist = Vector3.Distance(transform.position, currentWaypoint);

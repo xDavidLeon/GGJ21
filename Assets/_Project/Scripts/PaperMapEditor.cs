@@ -24,7 +24,7 @@ public class PaperMapEditor : MonoBehaviour
     public List<Vector3> path;
     public float world_scale = 4.0f;
 
-    public Rect visible_rect;
+    public Rect visible_rect; //from 0,0 to map_bg.width,map_bg.height
 
     //public List<Texture> circuit_textures;
     //public List<Sprite> blueprint_textures;
@@ -86,8 +86,9 @@ public class PaperMapEditor : MonoBehaviour
         }
     }
 
-    public void FocusOnWorldPos(Vector3 worldpos, float area = 256f)
+    public void FocusOnWorldPos(Vector3 worldpos, float area = 128f)
     {
+        //return;
         Vector2 center = convertWorldToMap(worldpos, true);
         visible_rect.x = center.x - area * 0.5f;
         visible_rect.y = center.y - area * 0.5f;
@@ -100,32 +101,40 @@ public class PaperMapEditor : MonoBehaviour
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
+    //converts from worldcoords to papermap coords
     public Vector2 convertWorldToMap(Vector3 worldpos, bool skip_rect = false)
     {
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        Vector2 pos2D = new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width), Remap(worldpos.z, 0, world_height, rt.height, 0));
+        Vector2 pos2D = new Vector2( Remap(worldpos.x, 0, world_width, 0, map_bg.width ),
+                                     Remap(worldpos.z, 0, world_height, map_bg.height, 0));
 
-        if(!skip_rect)
-        pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f),
-                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f));
+        if (!skip_rect)
+        {
+            pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0, final_rt.width),
+                Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0, final_rt.height));
+        }
 
-        //pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
-        //                    Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
+        //pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, rt.width),
+        //            Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, rt.height));
+
         return pos2D;
     }
 
+    //converts from papermap coords to worldcoords
     public Vector3 convertMapToWorld(Vector2 pos2D, bool skip_rect = false)
     {
         if (!skip_rect)
-            pos2D = new Vector2(Remap(pos2D.x, 0.0f, 512f, visible_rect.x, visible_rect.x + visible_rect.width),
-                            Remap(pos2D.y, 0.0f, 512f, visible_rect.y, visible_rect.y + visible_rect.height));
-        //pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, 512f ),
-        //                    Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, 512f ));
+        {
+            pos2D = new Vector2(Remap(pos2D.x, 0.0f, final_rt.width, visible_rect.x, visible_rect.x + visible_rect.width),
+                                Remap(pos2D.y, 0.0f, final_rt.height, visible_rect.y, visible_rect.y + visible_rect.height));
+            //            pos2D = new Vector2(Remap(pos2D.x, 0.0f, rt.width, visible_rect.x, visible_rect.x + visible_rect.width),
+            //                            Remap(pos2D.y, 0.0f, rt.height, visible_rect.y, visible_rect.y + visible_rect.height));
+        }
 
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f, Remap(pos2D.y, rt.height, 0, 0, world_height) );
+        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, map_bg.width, 0, world_width), 0.0f, Remap(pos2D.y, map_bg.height, 0, 0, world_height) );
         return world_pos;
     }
 
@@ -133,7 +142,7 @@ public class PaperMapEditor : MonoBehaviour
     {
         if (watching_map) return;
         watching_map = true;
-        //FocusOnWorldPos(position);
+        FocusOnWorldPos(position);
     }
     
     public void CloseMap()
@@ -166,8 +175,8 @@ public class PaperMapEditor : MonoBehaviour
         if (!mapCamera || !rt || !final_rt)
             return;
 
-        // if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-        //     GameManager.Instance.CloseMap();
+        if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
+            watching_map = !watching_map;
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;
@@ -269,7 +278,9 @@ public class PaperMapEditor : MonoBehaviour
 
         //draw map
         //Graphics.DrawTexture(new Rect(0,0, final_rt.width, final_rt.height), map_bg );
-        Rect norm_rect = new Rect(visible_rect.x / map_bg.width, 1.0f - (visible_rect.y - visible_rect.height) / map_bg.height, visible_rect.width / map_bg.width, visible_rect.height / map_bg.height);
+        //Rect norm_rect = new Rect(visible_rect.x / map_bg.width, 1.0f - (visible_rect.y - visible_rect.height) / map_bg.height, visible_rect.width / map_bg.width, visible_rect.height / map_bg.height);
+        Rect norm_rect = new Rect(visible_rect.x / map_bg.width, visible_rect.y / map_bg.height, visible_rect.width / map_bg.width, visible_rect.height / map_bg.height);
+        //Debug.Log($"_x:{norm_rect.x}_z:{norm_rect.y}_w:{norm_rect.width}_h:{norm_rect.height}");
         //Rect norm_rect = new Rect(0, 0.0f, 0.5f, 0.5f);
         Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), map_bg, norm_rect, 0,0,0,0);
 
