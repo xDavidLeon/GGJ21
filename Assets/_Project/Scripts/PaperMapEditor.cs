@@ -93,17 +93,25 @@ public class PaperMapEditor : MonoBehaviour
         return new Vector3(wx, 0.0f, wz);
     }
 
+    public void OpenMap()
+    {
+        watching_map = true;
+    }
+    
+    public void CloseMap()
+    {
+        watching_map = false;
+    }
+    
     void Update()
     {
         if (!mapCamera || !rt || !final_rt)
             return;
 
         if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-            watching_map = !watching_map;
+            CloseMap();
 
-        if (watching_map)
-        {
-        }
+        if (!watching_map) return;
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;
@@ -272,30 +280,5 @@ public class PaperMapEditor : MonoBehaviour
         //Rect rect = new Rect(0, 0, Screen.width, Screen.height);
         //Graphics.DrawTexture(rect, rt, rect, 0, 0, 0, 0);
         GL.PopMatrix();
-    }
-
-    public void OpenCover()
-    {
-        //circuitCover.transform.DOLocalMoveX(-0.3f, 1.0f).SetUpdate(UpdateType.Normal, true);
-    }
-
-    public void CloseCover()
-    {
-        //circuitCover.transform.DOLocalMoveX(0.0f, 1.0f).SetUpdate(UpdateType.Normal, true);
-    }
-
-    public void ExitEditMode()
-    {
-        //GameManager.Instance.SetGameStateControl();
-    }
-
-    public void EnterEditMode()
-    {
-        //GameManager.Instance.SetGameStateEdit();
-    }
-
-    public void Retry()
-    {
-        //GameManager.Instance.Restart();
     }
 }

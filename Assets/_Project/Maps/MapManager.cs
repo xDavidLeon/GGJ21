@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
-public class MapManager : MonoBehaviour
+public class MapManager : MonoSingleton<MapManager>
 {
     public Map map;
     public TilesetDatabase tilesetDatabase;
@@ -20,13 +20,10 @@ public class MapManager : MonoBehaviour
     public bool updateBase = false;
     public Vector2 posOffset;
 
-    private void Awake()
-    {
-    }
-
     // Start is called before the first frame update
-    void Start()
+    protected override void OnSingletonStart()
     {
+        base.OnSingletonStart();
         if (generateOnStart) Init();
     }
 
