@@ -13,6 +13,8 @@ public class NPCCharacter : Controller
         public float jumpSpeed = 10f;
         public float gravity = 10f;
 
+        public float next_waypoint_distance = 1.0f;
+
         public List<Vector3> waypoints;
         public List<int> visited;
 
@@ -97,7 +99,7 @@ public class NPCCharacter : Controller
             if (dist > 30.0f)
                 return _direction;
             //too close
-            if (dist < 5.0f)
+            if (dist < next_waypoint_distance && waypoints.Count > 1)
             {
                 waypoints.RemoveAt(0); //remove waypoint
                 return _direction;
