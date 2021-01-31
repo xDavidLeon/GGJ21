@@ -111,7 +111,7 @@ public class PaperMapEditor : MonoBehaviour
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
         Vector2 pos2D = new Vector2( Remap(worldpos.x, 0, world_width, 0, map_bg.width ),
-                                     Remap(worldpos.z, 0, world_height, map_bg.height, 0));
+                                     Remap(worldpos.z, 0, world_height, 0, map_bg.height ));
 
         if (!skip_rect)
         {
@@ -122,12 +122,16 @@ public class PaperMapEditor : MonoBehaviour
         //pos2D = new Vector2(Remap(pos2D.x, visible_rect.x, visible_rect.x + visible_rect.width, 0.0f, rt.width),
         //            Remap(pos2D.y, visible_rect.y, visible_rect.y + visible_rect.height, 0.0f, rt.height));
 
+        pos2D.y = rt.height - pos2D.y;
+
         return pos2D;
     }
 
     //converts from papermap coords to worldcoords
     public Vector3 convertMapToWorld(Vector2 pos2D, bool skip_rect = false)
     {
+        pos2D.y = rt.height - pos2D.y;
+
         if (!skip_rect)
         {
             pos2D = new Vector2(Remap(pos2D.x, 0.0f, final_rt.width, visible_rect.x, visible_rect.x + visible_rect.width),
@@ -138,7 +142,7 @@ public class PaperMapEditor : MonoBehaviour
 
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, map_bg.width, 0, world_width), 0.0f, Remap(pos2D.y, map_bg.height, 0, 0, world_height) );
+        Vector3 world_pos = new Vector3( Remap(pos2D.x, 0, map_bg.width, 0, world_width), 0.0f, Remap(pos2D.y, 0, map_bg.height, 0, world_height) );
         return world_pos;
     }
 
