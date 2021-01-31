@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager>
 {
     public List<GameObject> flock;
-    public int flockSize = 10;
+    public int flockSize = 20;
     public GameObject flockUnitPrefab;
+    public Vector3 start_pos;
 
     protected override void OnSingletonAwake()
     {
@@ -25,10 +26,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void SpawnFlock(Vector3 position)
     {
+        flock = new List<GameObject>();
+
         for (int i = 0; i < flockSize; i++)
         {
             var pos = position;
-            pos += new Vector3(1, 0, 1) * UnityEngine.Random.Range(-2.0f, 2.0f);
+            pos.x += UnityEngine.Random.Range(-2.0f, 2.0f);
+            pos.z += UnityEngine.Random.Range(-2.0f, 2.0f);
             Vector3 rot = new Vector3(0, UnityEngine.Random.Range(-360.0f, 360.0f), 0);
             flock.Add(Instantiate(flockUnitPrefab, pos, Quaternion.Euler(rot)));
         }

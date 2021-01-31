@@ -82,15 +82,25 @@ public class PaperMapEditor : MonoBehaviour
         }
     }
 
-    Vector3 convertMapToWorld(Vector2 pos2D)
+    public float Remap(float value, float from1, float to1, float from2, float to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+    }
+
+    public Vector2 convertWorldToMap(Vector3 worldpos)
     {
         float world_scale = 4.0f;
         float world_width = 128.0f * world_scale;
         float world_height = 128.0f * world_scale;
-        float wx = (pos2D.x / (float)rt.width) * world_width + world_scale;
-        float wz = (1.0f - pos2D.y / (float)rt.height) * world_height;
-        //Debug.Log($"worldops _x:{wx}_z:{wz}");
-        return new Vector3(wx, 0.0f, wz);
+        return new Vector2(Remap(worldpos.x, 0, world_width, 0, rt.width), Remap(worldpos.z, 0, world_height, rt.height, 0));
+    }
+
+    public Vector3 convertMapToWorld(Vector2 pos2D)
+    {
+        float world_scale = 4.0f;
+        float world_width = 128.0f * world_scale;
+        float world_height = 128.0f * world_scale;
+        return new Vector3( Remap(pos2D.x, 0, rt.width, 0, world_width), 0.0f, Remap(pos2D.y, rt.height, 0, 0, world_height) );
     }
 
     public void OpenMap()
@@ -109,12 +119,13 @@ public class PaperMapEditor : MonoBehaviour
             return;
 
         if (ReInput.players.GetPlayer(0).GetButtonDown("Map"))
-            CloseMap();
-
-        if (!watching_map) return;
+            watching_map = !watching_map;
+            //CloseMap();
 
         mapCamera.enabled = watching_map;
         playerCamera.enabled = !watching_map;
+
+        if (!watching_map) return;
 
         //UpdateBoard();
 
@@ -134,13 +145,15 @@ public class PaperMapEditor : MonoBehaviour
             {
                 ClearPath();
                 Debug.Log("start drawing... ");
-                last_pos = cursorpos;
+                GameManager mng = GameManager.Instance;
+                //last_pos = cursorpos;
+                last_pos = convertWorldToMap(mng.start_pos);
                 path.Add(this.convertMapToWorld(last_pos));
                 pencil_drawing = true;
                 GL.PushMatrix();
                 GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
                 RenderTexture.active = rt;
-                DrawSprite(0, 1, cursorpos, new Vector2(32, 32));
+                DrawSprite(0, 1, last_pos, new Vector2(32, 32));
                 RenderTexture.active = null;
                 GL.PopMatrix();
             }
@@ -156,9 +169,16 @@ public class PaperMapEditor : MonoBehaviour
             DrawSprite(0, 3, cursorpos, new Vector2(32, 32));
             RenderTexture.active = null;
             GL.PopMatrix();
+            finishDrawing();
         }
 
-        DrawTexture();
+        DrawPaperMapTexture();
+    }
+
+    void finishDrawing()
+    {
+        GameManager mng = GameManager.Instance;
+        mng.SetFlockWaypoints(path);
     }
 
     void ClearPath()
@@ -169,7 +189,7 @@ public class PaperMapEditor : MonoBehaviour
         path.Clear();
     }
 
-    void DrawTexture()
+    void DrawPaperMapTexture()
     {
         GL.PushMatrix();
         GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
@@ -208,12 +228,9 @@ public class PaperMapEditor : MonoBehaviour
 
         if (show_player)
         {
-            float world_width = 128.0f * 4.0f;
-            float world_height = 128.0f * 4.0f;
-            Vector3 playerpos = canvasObject.transform.position;
-            playerpos.x = (playerpos.x / (world_width)) * final_rt.width;
-            playerpos.z = (1.0f - playerpos.z / (world_height)) * final_rt.height;
-            DrawSprite(0, 2, new Vector2(playerpos.x, playerpos.z), new Vector2(32, 32));
+            GameManager mng = GameManager.Instance;
+            DrawSprite(3, 2, convertWorldToMap(mng.start_pos), new Vector2(32, 32));
+            DrawSprite(0, 2, convertWorldToMap(canvasObject.transform.position), new Vector2(32, 32));
         }
         Graphics.DrawTexture(new Rect(0, 0, final_rt.width, final_rt.height), rt);
         RenderTexture.active = null;
