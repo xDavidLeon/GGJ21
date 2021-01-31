@@ -12,6 +12,17 @@ public class GameManager : MonoSingleton<GameManager>
     public GameCanvas gameCanvas;
     public PaperMapEditor paperMapEditor;
 
+    private PlayerCharacter _playerCharacter;
+
+    public PlayerCharacter PlayerCharacter
+    {
+        get
+        {
+            if (_playerCharacter == null) _playerCharacter = FindObjectOfType<PlayerCharacter>();
+            return _playerCharacter;
+        }
+    }
+
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
@@ -57,9 +68,11 @@ public class GameManager : MonoSingleton<GameManager>
     public void OpenMap()
     {
         if (paperMapEditor == null) return;
+        if (paperMapEditor.watching_map == true) return;
+        
         ShowCursor(true);
 
-        paperMapEditor.OpenMap();
+        paperMapEditor.OpenMap(PlayerCharacter.transform.position);
         gameCanvas.uiGameplay.SetActive(false);
         gameCanvas.uiMap.SetActive(true);
     }
@@ -67,6 +80,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void CloseMap()
     {
         if (paperMapEditor == null) return;
+        if (paperMapEditor.watching_map == false) return;
+
         ShowCursor(false);
 
         paperMapEditor.CloseMap();
@@ -90,7 +105,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void ShowCursor(bool b)
     {
-        if (b == true)
+        if (b == false)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -100,6 +115,5 @@ public class GameManager : MonoSingleton<GameManager>
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         }
-   
     }
 }
