@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Undefined
   - Checkpoint
+  - Sheep
   layers:
   - Default
   - TransparentFX

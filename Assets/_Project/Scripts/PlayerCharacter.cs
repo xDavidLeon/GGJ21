@@ -1,3 +1,4 @@
+using System;
 using CMF;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ using UnityEngine;
 //This script is an example of a very simple walker controller that covers only the basics of character movement;
 public class PlayerCharacter : Controller
 {
+    public PaperMapEditor paperMapEditor;
     private Mover mover;
     float currentVerticalSpeed = 0f;
     bool isGrounded;
@@ -24,6 +26,9 @@ public class PlayerCharacter : Controller
         tr = transform;
         mover = GetComponent<Mover>();
         playerInput = GetComponent<PlayerInput>();
+
+        GameManager.Instance.start_pos = transform.position;
+        GameManager.Instance.SpawnFlock(transform.position);
     }
 
     void FixedUpdate()
@@ -39,9 +44,11 @@ public class PlayerCharacter : Controller
         isGrounded = mover.IsGrounded();
 
         Vector3 _velocity = Vector3.zero;
-
+        
         //Add player movement to velocity;
         _velocity += CalculateMovementDirection() * movementSpeed;
+
+        if (paperMapEditor.watching_map) _velocity = Vector3.zero;
 
         //Handle gravity;
         if (!isGrounded)
@@ -136,4 +143,5 @@ public class PlayerCharacter : Controller
     {
         return isGrounded;
     }
+    
 }

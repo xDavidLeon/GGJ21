@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test_map.tmx",
+    "activeFile": "map128.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -26,6 +26,14 @@
         "RTS_medieval@2.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 0.5
+        },
+        "map128.tmx": {
+            "scale": 0.072943115234375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 4105.939251945444,
+                "y": 4105.939251945443
+            }
         },
         "medieval_tilesheet.tsx": {
             "scaleInDock": 1,
@@ -50,8 +58,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 408.66666666666663,
-                "y": 340
+                "x": 870,
+                "y": 162.66666666666669
             }
         }
     },
@@ -64,14 +72,16 @@
     "map.tileWidth": 64,
     "openFiles": [
         "test_map.tmx",
-        "medieval_tilesheet.tsx"
+        "medieval_tilesheet.tsx",
+        "map128.tmx"
     ],
     "project": "ggj21.tiled-project",
     "recentFiles": [
-        "C:/Users/david/Downloads/testMap.tmx",
-        "testMap.tmx",
         "test_map.tmx",
         "medieval_tilesheet.tsx",
+        "map128.tmx",
+        "C:/Users/david/Downloads/testMap.tmx",
+        "testMap.tmx",
         "medieval_tilesheet64.tsx",
         "RTS_medieval@2.tsx"
     ],
