@@ -86,7 +86,7 @@ public class PaperMapEditor : MonoBehaviour
         }
     }
 
-    public void FocusOnWorldPos(Vector3 worldpos, float area = 128f)
+    public void FocusOnWorldPos(Vector3 worldpos, float area = 256f)
     {
         Vector2 center = convertWorldToMap(worldpos, true);
         visible_rect.x = center.x - area * 0.5f;
@@ -133,15 +133,34 @@ public class PaperMapEditor : MonoBehaviour
     {
         if (watching_map) return;
         watching_map = true;
-        FocusOnWorldPos(position);
+        //FocusOnWorldPos(position);
     }
     
     public void CloseMap()
     {
         if (watching_map == false) return;
         watching_map = false;
+
+        if (pencil_drawing)
+            onLastPoint();
     }
-    
+
+    public void onLastPoint()
+    {
+        if (!pencil_drawing)
+            return;
+
+        Debug.Log("stop drawing... ");
+        pencil_drawing = false;
+        GL.PushMatrix();
+        GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
+        RenderTexture.active = rt;
+        DrawSprite(0, 3, cursorpos, new Vector2(32, 32));
+        RenderTexture.active = null;
+        GL.PopMatrix();
+        finishDrawing();
+    }
+
     void LateUpdate()
     {
         if (!mapCamera || !rt || !final_rt)
@@ -191,15 +210,7 @@ public class PaperMapEditor : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0) && pencil_drawing)
         {
-            Debug.Log("stop drawing... ");
-            pencil_drawing = false;
-            GL.PushMatrix();
-            GL.LoadPixelMatrix(0, rt.width, rt.height, 0);
-            RenderTexture.active = rt;
-            DrawSprite(0, 3, cursorpos, new Vector2(32, 32));
-            RenderTexture.active = null;
-            GL.PopMatrix();
-            finishDrawing();
+            onLastPoint();
         }
 
         DrawPaperMapTexture();
