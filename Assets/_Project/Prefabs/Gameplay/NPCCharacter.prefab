@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 5632263690067823798}
   m_Layer: 0
   m_Name: NPCCharacter
-  m_TagString: Untagged
+  m_TagString: Sheep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -228,9 +228,9 @@ MonoBehaviour:
   movementSpeed: 7
   jumpSpeed: 10
   gravity: 10
+  next_waypoint_distance: 1
   waypoints: []
   visited: 
-  currentWaypoint: -1
 --- !u!82 &5632263690067823798
 AudioSource:
   m_ObjectHideFlags: 0

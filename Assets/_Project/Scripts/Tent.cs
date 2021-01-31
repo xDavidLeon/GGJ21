@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Rewired;
@@ -6,6 +7,20 @@ using UnityEngine;
 public class Tent : MonoBehaviour
 {
     public bool isPlayerInside = false;
+    public List<GameObject> flockUnits;
+
+    public int SheepReachedTent
+    {
+        get
+        {
+            return flockUnits.Count;
+        }
+    }
+    
+    private void Start()
+    {
+        flockUnits = new List<GameObject>();
+    }
 
     void Update()
     {
@@ -29,6 +44,10 @@ public class Tent : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             GameManager.Instance.OpenMap();
+        }
+        else if (other.CompareTag("Sheep"))
+        {
+            if (flockUnits.Contains(other.gameObject) == false) flockUnits.Add(other.gameObject);
         }
     }
 
