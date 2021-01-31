@@ -69,9 +69,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Win()
     {
+        gameCanvas.uiWin.SetActive(true);
+        gameCanvas.uiPlayAgain.SetActive(true);
     }
 
     public void Lose()
     {
+        gameCanvas.uiLose.SetActive(true);
+        gameCanvas.uiPlayAgain.SetActive(false);
     }
 }
