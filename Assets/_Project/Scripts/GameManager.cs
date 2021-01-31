@@ -68,6 +68,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void OpenMap()
     {
         if (paperMapEditor == null) return;
+        if (paperMapEditor.watching_map == true) return;
+        
         ShowCursor(true);
 
         paperMapEditor.OpenMap(PlayerCharacter.transform.position);
@@ -78,6 +80,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void CloseMap()
     {
         if (paperMapEditor == null) return;
+        if (paperMapEditor.watching_map == false) return;
+
         ShowCursor(false);
 
         paperMapEditor.CloseMap();
