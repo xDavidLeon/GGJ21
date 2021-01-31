@@ -70,7 +70,7 @@ public class GameManager : MonoSingleton<GameManager>
         if (paperMapEditor == null) return;
         ShowCursor(true);
 
-        paperMapEditor.OpenMap();
+        paperMapEditor.OpenMap(PlayerCharacter.transform.position);
         gameCanvas.uiGameplay.SetActive(false);
         gameCanvas.uiMap.SetActive(true);
     }
@@ -101,7 +101,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void ShowCursor(bool b)
     {
-        if (b == true)
+        if (b == false)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

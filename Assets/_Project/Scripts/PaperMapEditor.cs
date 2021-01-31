@@ -129,10 +129,11 @@ public class PaperMapEditor : MonoBehaviour
         return world_pos;
     }
 
-    public void OpenMap()
+    public void OpenMap(Vector3 position)
     {
         if (watching_map) return;
         watching_map = true;
+        FocusOnWorldPos(position);
     }
     
     public void CloseMap()
