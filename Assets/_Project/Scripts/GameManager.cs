@@ -12,6 +12,17 @@ public class GameManager : MonoSingleton<GameManager>
     public GameCanvas gameCanvas;
     public PaperMapEditor paperMapEditor;
 
+    private PlayerCharacter _playerCharacter;
+
+    public PlayerCharacter PlayerCharacter
+    {
+        get
+        {
+            if (_playerCharacter == null) _playerCharacter = FindObjectOfType<PlayerCharacter>();
+            return _playerCharacter;
+        }
+    }
+
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
@@ -100,6 +111,5 @@ public class GameManager : MonoSingleton<GameManager>
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
         }
-   
     }
 }
