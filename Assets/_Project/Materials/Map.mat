@@ -44,6 +44,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _CubemapAsset_2670ee4a311b47928cc69d0101cb7b5d_Out_0:
+        m_Texture: {fileID: 8900000, guid: fa41734a337674542975482c8fe96ea1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -103,6 +107,7 @@ Material:
     m_Floats:
     - Vector1_236965eab88c48638cb1dd8b15851c2d: 500
     - Vector1_60e61dc6931041ea9e92001c7e131a9b: 3
+    - Vector1_88034d31e438421594849100d7d2a291: 1
     - Vector1_a04caeb2d2b54ec990fae697742853c6: 0
     - _AlphaClip: 0
     - _Blend: 0
@@ -135,6 +140,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Vector2_86b8bb2e4b3a4f289ef31699d934e8db: {r: -0.01, g: 0.01, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
