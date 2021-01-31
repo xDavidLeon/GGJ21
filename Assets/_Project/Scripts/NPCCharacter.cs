@@ -16,7 +16,7 @@ public class NPCCharacter : Controller
         public List<Vector3> waypoints;
         public List<int> visited;
 
-        public int currentWaypoint = -1;
+        //public int currentWaypoint = -1;
         
 		Vector3 lastVelocity = Vector3.zero;
 
@@ -89,38 +89,58 @@ public class NPCCharacter : Controller
         {
             Vector3 _direction = Vector3.zero;
 
-            if (currentWaypoint == -1) currentWaypoint = GetClosestWaypoint();
-
-            if (currentWaypoint != -1)
+        if (waypoints.Count > 0)
+        {
+            Vector3 currentWaypoint = waypoints[0];
+            float dist = Vector3.Distance(transform.position, currentWaypoint);
+            //too far
+            if (dist > 30.0f)
+                return _direction;
+            //too close
+            if (dist < 5.0f)
             {
-                var waypoint = waypoints[currentWaypoint];
-                _direction = (waypoint - transform.position).normalized;
-
-                if (Vector3.Distance(transform.position, waypoints[currentWaypoint]) < 0.25f)
-                {
-                    ReachedWaypoint(currentWaypoint);
-                }
+                waypoints.RemoveAt(0); //remove waypoint
+                return _direction;
             }
-            
-			// //If no camera transform has been assigned, use the character's transform axes to calculate the movement direction;
-			// if(cameraTransform == null)
-			// {
-			// 	_direction += tr.right * characterInput.GetHorizontalMovementInput();
-			// 	_direction += tr.forward * characterInput.GetVerticalMovementInput();
-			// }
-			// else
-			// {
-			// 	//If a camera transform has been assigned, use the assigned transform's axes for movement direction;
-			// 	//Project movement direction so movement stays parallel to the ground;
-			// 	_direction += Vector3.ProjectOnPlane(cameraTransform.right, tr.up).normalized * characterInput.GetHorizontalMovementInput();
-			// 	_direction += Vector3.ProjectOnPlane(cameraTransform.forward, tr.up).normalized * characterInput.GetVerticalMovementInput();
-			// }
 
-			//If necessary, clamp movement vector to magnitude of 1f;
-			if(_direction.magnitude > 1f)
+            _direction = (currentWaypoint - transform.position).normalized;
+            return _direction;
+        }
+
+        /*
+        if (currentWaypoint == -1) currentWaypoint = GetClosestWaypoint();
+
+        if (currentWaypoint != -1)
+        {
+            var waypoint = waypoints[currentWaypoint];
+            _direction = (waypoint - transform.position).normalized;
+
+            if (Vector3.Distance(transform.position, waypoints[currentWaypoint]) < 0.25f)
+            {
+                ReachedWaypoint(currentWaypoint);
+            }
+        }
+
+        // //If no camera transform has been assigned, use the character's transform axes to calculate the movement direction;
+        // if(cameraTransform == null)
+        // {
+        // 	_direction += tr.right * characterInput.GetHorizontalMovementInput();
+        // 	_direction += tr.forward * characterInput.GetVerticalMovementInput();
+        // }
+        // else
+        // {
+        // 	//If a camera transform has been assigned, use the assigned transform's axes for movement direction;
+        // 	//Project movement direction so movement stays parallel to the ground;
+        // 	_direction += Vector3.ProjectOnPlane(cameraTransform.right, tr.up).normalized * characterInput.GetHorizontalMovementInput();
+        // 	_direction += Vector3.ProjectOnPlane(cameraTransform.forward, tr.up).normalized * characterInput.GetVerticalMovementInput();
+        // }
+        */
+
+        //If necessary, clamp movement vector to magnitude of 1f;
+        if (_direction.magnitude > 1f)
 				_direction.Normalize();
 
-			return _direction;
+            return _direction;
         }
 
         //This function is called when the controller has landed on a surface after being in the air;
@@ -162,67 +182,76 @@ public class NPCCharacter : Controller
     public void SetWaypoints(List<Vector3> w)
     {
         waypoints.Clear();
+        w.ForEach((item) =>
+        {
+            waypoints.Add(item);
+        });
+        /*
+        waypoints.Clear();
         visited.Clear();
         waypoints = w;
         currentWaypoint = GetClosestWaypoint();
+        */
     }
 
-    public int GetClosestWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
+    /*
+public int GetClosestWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
+{
+    if (waypoints == null || waypoints.Count == 0) return -1;
+
+    int closest = -1;
+    float closestDistance = float.MaxValue;
+    foreach (var waypoint in waypoints)
     {
-        if (waypoints == null || waypoints.Count == 0) return -1;
-
-        int closest = -1;
-        float closestDistance = float.MaxValue;
-        foreach (var waypoint in waypoints)
-        {
-            var id = waypoints.IndexOf(waypoint);
-            if (visited.Contains(id)) return -1;
-            var d = Vector3.Distance(waypoint, transform.position);
-            if (d > maxDistance) continue;
-            if (d > closestDistance) continue;
-            if (d < minDistance) continue;
-            closestDistance = d;
-            closest = waypoints.IndexOf(waypoint);
-        }
-
-        return closest;
+        var id = waypoints.IndexOf(waypoint);
+        if (visited.Contains(id)) return -1;
+        var d = Vector3.Distance(waypoint, transform.position);
+        if (d > maxDistance) continue;
+        if (d > closestDistance) continue;
+        if (d < minDistance) continue;
+        closestDistance = d;
+        closest = waypoints.IndexOf(waypoint);
     }
 
-    public int GetPreviousWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
-    {
-        if (waypoints == null || waypoints.Count == 0) return -1;
-        if (currentWaypoint == -1) return GetClosestWaypoint(maxDistance);
-        if (currentWaypoint - 1 < 0) return -1;
-        if (visited.Contains(currentWaypoint - 1)) return -1;
+    return closest;
+}
 
-        var d = Vector3.Distance(waypoints[currentWaypoint - 1], transform.position);
-        if (d > maxDistance) return -1;
-        if (d < minDistance) return -1;
-        return currentWaypoint + 1;
-    }
+public int GetPreviousWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
+{
+    if (waypoints == null || waypoints.Count == 0) return -1;
+    if (currentWaypoint == -1) return GetClosestWaypoint(maxDistance);
+    if (currentWaypoint - 1 < 0) return -1;
+    if (visited.Contains(currentWaypoint - 1)) return -1;
 
-    public int GetNextWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
-    {
-        if (waypoints == null || waypoints.Count == 0) return -1;
-        if (currentWaypoint == -1) return GetClosestWaypoint(maxDistance);
-        if (currentWaypoint + 1 >= waypoints.Count) return -1;
-        if (visited.Contains(currentWaypoint + 1)) return -1;
-        var d = Vector3.Distance(waypoints[currentWaypoint + 1], transform.position);
-        if (d > maxDistance) return -1;
-        if (d < minDistance) return -1;
+    var d = Vector3.Distance(waypoints[currentWaypoint - 1], transform.position);
+    if (d > maxDistance) return -1;
+    if (d < minDistance) return -1;
+    return currentWaypoint + 1;
+}
 
-        return currentWaypoint + 1;
-    }
+public int GetNextWaypoint(float maxDistance = 5.0f, float minDistance = 0.25f)
+{
+    if (waypoints == null || waypoints.Count == 0) return -1;
+    if (currentWaypoint == -1) return GetClosestWaypoint(maxDistance);
+    if (currentWaypoint + 1 >= waypoints.Count) return -1;
+    if (visited.Contains(currentWaypoint + 1)) return -1;
+    var d = Vector3.Distance(waypoints[currentWaypoint + 1], transform.position);
+    if (d > maxDistance) return -1;
+    if (d < minDistance) return -1;
 
-    public void ReachedWaypoint(int id)
-    {
-        visited.Add(id);
-        var next = GetNextWaypoint();
-        var previous = GetPreviousWaypoint();
-        if (next >= 0) currentWaypoint = next;
-        else if (previous >= 0) currentWaypoint = previous;
-        else currentWaypoint = -1;
-    }
-    
+    return currentWaypoint + 1;
+}
+
+public void ReachedWaypoint(int id)
+{
+    visited.Add(id);
+    var next = GetNextWaypoint();
+    var previous = GetPreviousWaypoint();
+    if (next >= 0) currentWaypoint = next;
+    else if (previous >= 0) currentWaypoint = previous;
+    else currentWaypoint = -1;
+}
+*/
+
     #endregion
 }

@@ -26,7 +26,8 @@ public class PlayerCharacter : Controller
         tr = transform;
         mover = GetComponent<Mover>();
         playerInput = GetComponent<PlayerInput>();
-        
+
+        GameManager.Instance.start_pos = transform.position;
         GameManager.Instance.SpawnFlock(transform.position);
     }
 
