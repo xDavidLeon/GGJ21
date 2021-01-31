@@ -22,6 +22,9 @@ public class GameManager : MonoSingleton<GameManager>
         base.OnSingletonStart();
 
         if (gameCanvas == null) gameCanvas = FindObjectOfType<GameCanvas>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     protected override void OnSingletonDestroy(bool isCurrentInstance)
@@ -54,6 +57,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void OpenMap()
     {
         if (paperMapEditor == null) return;
+        ShowCursor(true);
+
         paperMapEditor.OpenMap();
         gameCanvas.uiGameplay.SetActive(false);
         gameCanvas.uiMap.SetActive(true);
@@ -62,6 +67,8 @@ public class GameManager : MonoSingleton<GameManager>
     public void CloseMap()
     {
         if (paperMapEditor == null) return;
+        ShowCursor(false);
+
         paperMapEditor.CloseMap();
         gameCanvas.uiGameplay.SetActive(true);
         gameCanvas.uiMap.SetActive(false);
@@ -69,13 +76,30 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void Win()
     {
+        ShowCursor(true);
         gameCanvas.uiWin.SetActive(true);
         gameCanvas.uiPlayAgain.SetActive(true);
     }
 
     public void Lose()
     {
+        ShowCursor(true);
         gameCanvas.uiLose.SetActive(true);
         gameCanvas.uiPlayAgain.SetActive(false);
+    }
+
+    public void ShowCursor(bool b)
+    {
+        if (b == true)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+   
     }
 }
