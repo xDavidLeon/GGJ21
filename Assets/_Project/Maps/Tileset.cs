@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using RotaryHeart.Lib.SerializableDictionary;
 using UnityEditor;
 using UnityEngine;
@@ -26,10 +24,13 @@ public class Tileset : ScriptableObject
     
     public bool isActive = true;
     
+    #if UNITY_EDITOR
     [ContextMenu("Save")]
     public void Save()
     {
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
     }
+    #endif
+    
 }

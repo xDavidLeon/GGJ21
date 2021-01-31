@@ -8,13 +8,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TileSetDb", menuName = "GGJ21/Create TileSet Db")]
 public class TilesetDatabase : ScriptableObject
 {
-    [SerializeField]
-    public List<Tileset> tilesets;
+    [SerializeField] public List<Tileset> tilesets;
 
     public Tileset GetTileset(string tilesetName)
     {
         return tilesets.FirstOrDefault(tileset => tileset.name == tilesetName);
     }
+
+#if UNITY_EDITOR
 
     [ContextMenu("Save")]
     public void Save()
@@ -22,5 +23,5 @@ public class TilesetDatabase : ScriptableObject
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();
     }
-    
+#endif
 }
