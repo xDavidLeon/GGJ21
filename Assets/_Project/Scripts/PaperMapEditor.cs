@@ -112,7 +112,7 @@ public class PaperMapEditor : MonoBehaviour
         watching_map = false;
     }
     
-    void Update()
+    void LateUpdate()
     {
         if (!mapCamera || !rt || !final_rt)
             return;
