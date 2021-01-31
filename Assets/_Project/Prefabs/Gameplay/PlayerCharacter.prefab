@@ -256,7 +256,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 915611644241697904}
-  - component: {fileID: 950762119092762244}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -279,22 +278,6 @@ Transform:
   m_Father: {fileID: 912721014288986522}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &950762119092762244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909895008070905108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28f625fafc0c6c44c9831015f06845e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  smoothSpeed: 20
-  extrapolateRotation: 0
-  updateType: 1
 --- !u!1 &909941699400881096
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,7 +931,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912721014288986522}
-  - component: {fileID: 950682650791197362}
   - component: {fileID: 950970341048646024}
   m_Layer: 0
   m_Name: ModelRoot
@@ -972,24 +954,6 @@ Transform:
   m_Father: {fileID: 912671831674074898}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &950682650791197362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911716578989860782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a4483ea754ca6043a5118a42cf7f9fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  lerpSpeed: 20
-  smoothDampTime: 0.02
-  extrapolatePosition: 0
-  updateType: 1
-  smoothType: 1
 --- !u!114 &950970341048646024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,6 +1056,13 @@ MonoBehaviour:
   map_bg: {fileID: 2800000, guid: b17994f67646fa341a1ec14a2811361e, type: 3}
   last_pos: {x: 0, y: 0}
   path: []
+  world_scale: 4
+  visible_rect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   hitpos: {x: 0, y: 0, z: 0}
   localpos: {x: 0, y: 0, z: 0}
   cursorpos: {x: 0, y: 0, z: 0}
